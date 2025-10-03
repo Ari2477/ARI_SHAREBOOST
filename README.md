@@ -36,47 +36,12 @@ npm install canvas
 
 ---
 
-🖼 Usage Example
-
-const { createCanvas } = require("canvas");
-const fs = require("fs");
-
-function createBanner(text, output = "shareboost.png") {
-  const canvas = createCanvas(1000, 400);
-  const ctx = canvas.getContext("2d");
-
-  // Background
-  const gradient = ctx.createLinearGradient(0, 0, 1000, 400);
-  gradient.addColorStop(0, "#6100ff");
-  gradient.addColorStop(1, "#ff00a8");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, 1000, 400);
-
-  // Text with neon glow
-  ctx.font = "bold 72px Arial";
-  ctx.fillStyle = "#fff";
-  ctx.shadowColor = "#ff00a8";
-  ctx.shadowBlur = 25;
-  ctx.textAlign = "center";
-  ctx.fillText(text, 500, 220);
-
-  fs.writeFileSync(output, canvas.toBuffer("image/png"));
-  console.log(`✅ Banner saved as ${output}`);
-}
-
-createBanner("🚀 ShareBoost Activated!");
-
-Run:
-
-node shareboost.js
-
-
----
-
 🌌 SHAREBOOST
 
-╔══════════════════════════════════╗
+  ╔══════════════════════════════════╗
+
  ║  🚀 Fast    ║   🎨 Stylish   ║   🤖 Smart   ║
+ 
  ╚══════════════════════════════════╝
 
 🌟 Highlights
