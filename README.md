@@ -1,3 +1,5 @@
+
+
 # ⌬ SHAREBOOST ⌬
 
 > 🚀 Amplify. Design. Dominate.
@@ -12,61 +14,42 @@
 
 ---
 
-## 🛰️ ASCII Logo
-
-██████  ██   ██  █████  ██████  ███████ ██████   ██████   ██████  ████████ ██       ██   ██ ██   ██ ██   ██ ██      ██   ██ ██    ██ ██    ██    ██
-██   ███ ███████ ███████ ██████  █████   ██████  ██    ██ ██    ██    ██
-██    ██ ██   ██ ██   ██ ██   ██ ██      ██   ██ ██    ██ ██    ██    ██
-██████  ██   ██ ██   ██ ██   ██ ███████ ██   ██  ██████   ██████     ██
-
----
-
-## ✨ Badges
-
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Active-ff00ff?style=for-the-badge&logo=rocket" />
-  <img src="https://img.shields.io/badge/Design-3D%20Canvas-6100ff?style=for-the-badge&logo=adobe-photoshop" />
-  <img src="https://img.shields.io/badge/Build-Powerful-ff0088?style=for-the-badge&logo=javascript" />
-  <img src="https://img.shields.io/badge/Made%20With-❤-ff0055?style=for-the-badge" />
+  <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" width="650" alt="ShareBoost Demo"/>
 </p>
+
+> ⚡ Watch your shares transform into **stunning visuals** and **irresistible banners**.  
 
 ---
 
 # ⚡ ShareBoost
 
-**ShareBoost** is not just a tool — it’s a **revolution**.  
-Turn every share into a **visual statement** with stunning banners, glowing aesthetics, and unstoppable engagement.  
+**ShareBoost** is not just a tool — it’s a **revolution in sharing**.  
+Every post, every banner, every share becomes a **visual statement** that demands attention.  
 
 ---
 
-## 🌟 Core Features
-- 🎨 **Dynamic 3D Banners** – Designs that stand out  
-- ⚡ **Ultra-Fast Performance** – Built for instant impact  
-- 🌌 **Gradient & Neon Visuals** – Eye-catching & modern  
-- 🤖 **Automation-Ready** – Integrates seamlessly with workflows  
-- 🔧 **Customizable** – Adjust styles to match your brand  
+## ✨ Core Features 
+- ⚡ **Ultra-Fast Performance** – Instant rendering    
+- 🔧 **Customizable** – Tailored to your brand’s identity  
 
 ---
 
-## 🌌 Why Choose ShareBoost?
+## 🌌 Why ShareBoost?
 
 Because ordinary shares don’t shine.  
-With **ShareBoost**, your content doesn’t just get shared — it **takes over the spotlight**.
+With **ShareBoost**, your content becomes an **experience** — not just another post.
 
 ---
 
 # 🌐 HIGHLIGHTS
 
-╔══════════════════════════════════════╗ 
-
- ║     🚀 Speed   ║       🎨 Style   ║        🤖 Smartness ║ 
-
-╚══════════════════════════════════════╝
+╔══════════════════════════════════════╗ ║ 🚀 Speed   ║ 🎨 Style   ║ 🤖 Smartness ║ ╚══════════════════════════════════════╝
 
 - ✨ Aesthetic-driven share banners  
-- 📡 Integration with bots, apps, and platforms  
-- 🔥 Optimized for creators, teams, and communities  
-- 🌟 Made to **captivate audiences** instantly  
+- 📡 Integration with apps & platforms  
+- 🔥 Optimized for creators & communities  
+- 🌟 Built to **captivate audiences** instantly  
 
 ---
 
