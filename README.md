@@ -13,10 +13,8 @@
 
 ---
 
-## 🎨 ShareBoost Banner
-
 <p align="center">
-  <img src="https://i.ibb.co/2kQW8tC/shareboost-realistic-banner.gif" width="800" alt="ShareBoost Realistic Banner"/>
+  <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" width="650" alt="ShareBoost Demo"/>
 </p>
 
 > ⚡ Turn ordinary shares into **eye-catching, branded experiences** that grab attention instantly.  
