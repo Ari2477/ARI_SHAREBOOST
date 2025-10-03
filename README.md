@@ -1,62 +1,47 @@
+<div align="center">
 
-# ⌬ SHAREBOOST ⌬
+<img src="https://i.ibb.co/ThbcZDL/shareboost-banner.png" alt="ShareBoost Banner" width="100%"/>
 
-> 🚀 Amplify. Design. Dominate.
+# SHAREBOOST
 
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=28&duration=2800&pause=1800&color=FF00FF&center=true&vCenter=true&width=750&lines=SHAREBOOST;Next-Level+Engagement;Boost+Your+Reach+%7C+Boost+Your+Impact" alt="ShareBoost Typing Banner"/>
-</p>
+### 🚀 Amplify • Design • Dominate  
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff00ff,100:6100ff&height=150&section=footer&text=SHAREBOOST&fontSize=42&fontAlign=50&fontAlignY=40&animation=fadeIn&desc=Created+by:+Ari&descAlign=50&descAlignY=70&fontColor=ffffff" />
-</p>
+> Turn every share into a **visual experience** that captures attention and drives engagement.
 
 ---
 
-## 🎨 ShareBoost Banner
-
-<p align="center">
-  <img src="https://i.ibb.co/2kQW8tC/shareboost-realistic-banner.gif" width="800" alt="ShareBoost Realistic Banner"/>
-</p>
-
-> ⚡ Turn ordinary shares into **eye-catching, branded experiences** that grab attention instantly.  
+### 🌟 A New Way to Share
+ShareBoost transforms ordinary posts into **aesthetic, branded, and professional-looking shares** that stand out across platforms.  
+Fast, customizable, and built to **elevate your content**.
 
 ---
 
-# ⚡ ShareBoost
+## ✨ Features
 
-**ShareBoost** is not just another tool — it’s the **future of sharing**.  
-Your content isn’t just posted… it’s **boosted, styled, and amplified** for maximum reach.  
-
----
-
-## ✨ Core Features 
-- ⚡ **Ultra-Fast Performance** – Instant delivery that scales  
-- 🎨 **Branded Visuals** – Realistic banners that feel professional  
-- 🔧 **Customizable** – Styled exactly to match your identity  
-- 🌍 **Engagement Focused** – Built to amplify your message  
+✔️ Ultra-fast performance – instant & smooth  
+✔️ Realistic branded visuals – no more plain shares  
+✔️ Customizable styles – match your identity & brand  
+✔️ Optimized for creators, teams & communities  
+✔️ Engagement-focused – designed to boost reach  
 
 ---
 
-## 🌌 Why ShareBoost?
+## 🌌 Why Choose ShareBoost?
 
-Ordinary shares get lost.  
-With **ShareBoost**, your content **stands out**, captures attention, and makes an impact every single time.  
+Because content deserves more than just “post & go”.  
+With **ShareBoost**, your message gets the spotlight it deserves — **styled, boosted, and amplified**.
 
 ---
 
-# 🌐 HIGHLIGHTS
+## 🔥 Highlights
 
-╔══════════════════════════════════════╗
+<div align="center">
 
-║  🚀 Speed        ║ 🎨 Style       ║ 🤖 Smartness      ║ 
+| 🚀 Speed | 🎨 Style | 🌍 Impact | 🤖 Smart |
+|----------|----------|-----------|----------|
+| Instant rendering | Aesthetic visuals | Wider audience reach | Automation-ready |
 
-╚══════════════════════════════════════╝
-
-- ✨ Aesthetic-driven branded banners  
-- 📡 Seamless integration with apps & platforms  
-- 🔥 Optimized for creators, businesses, and communities  
-- 🌟 Designed to **captivate audiences** instantly  
+</div>
 
 ---
 
@@ -66,9 +51,6 @@ Made with ❤️ by **Ari**
 
 ---
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:ff00ff,100:6100ff&height=100&section=footer&text=SHAREBOOST&fontSize=30&fontAlign=50&fontAlignY=60&animation=scaleIn&fontColor=ffffff" />
-</p>
+<img src="https://i.ibb.co/2nW7WmD/shareboost-footer.png" alt="ShareBoost Footer Banner" width="100%"/>
 
-
----
+</div>
