@@ -1,70 +1,66 @@
 
+
 # ⌬ SHAREBOOST ⌬
 
 > 🚀 Amplify. Design. Dominate.
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=26&duration=2800&pause=2000&color=FF00A8&center=true&vCenter=true&width=600&lines=SHARE+BOOST;Next-Level+Engagement+Tool;Stylish+%7C+Fast+%7C+Customizable" alt="ShareBoost Banner"/>
+  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=28&duration=2800&pause=1800&color=FF00FF&center=true&vCenter=true&width=650&lines=SHAREBOOST;Next-Level+Engagement;3D+Banners+%7C+Neon+Designs+%7C+Automation" alt="ShareBoost Typing Banner"/>
 </p>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff00a8,100:6100ff&height=150&section=footer&text=SHAREBOOST&fontSize=40&fontAlign=50&fontAlignY=40&animation=fadeIn&desc=Created+by:+Ari&descAlign=50&descAlignY=70&fontColor=ffffff" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff00ff,100:6100ff&height=150&section=footer&text=SHAREBOOST&fontSize=42&fontAlign=50&fontAlignY=40&animation=fadeIn&desc=Created+by:+Ari&descAlign=50&descAlignY=70&fontColor=ffffff" />
 </p>
 
 ---
 
 # ⚡ ShareBoost
 
-A **powerful banner generator & engagement booster**.  
-Crafted for speed, **3D designs**, and social media domination.
+**ShareBoost** is not just a tool — it’s a **movement**.  
+Turn every share into a **statement** with stunning banners, glowing aesthetics, and unstoppable reach.  
+
+Built for creators, developers, and communities who want their content to **stand out**.
 
 ---
 
-## ✨ Features
-- 🎨 Realistic **3D Canvas Banners**
-- ⚡ Lightning fast rendering
-- 🌌 Gradient + Neon effects
-- 🛠️ Fully customizable styles
-- 🤖 Ready for bot automation
+## ✨ Core Features
+- 🎨 **Dynamic 3D Banners** – Unique designs that pop  
+- ⚡ **Ultra-Fast Rendering** – No lag, no delays  
+- 🌌 **Gradient & Neon Effects** – Eye-catching and modern  
+- 🤖 **Automation-Ready** – Perfect for bots and scripts  
+- 🔧 **Fully Customizable** – Tailor everything to your brand  
 
 ---
 
-## 📦 Installation
+## 🌌 Why ShareBoost?
 
-npm install canvas
-
-
----
-
-🌌 SHAREBOOST
-
-  ╔══════════════════════════════════╗
-
- ║  🚀 Fast    ║   🎨 Stylish   ║   🤖 Smart   ║
- 
- ╚══════════════════════════════════╝
-
-🌟 Highlights
-
-✨ Unique share banners
-
-📡 API & Bot-ready integration
-
-⚙️ Custom command handler
-
-🖌️ Aesthetic 3D canvas design
-
-
+Because plain shares don’t cut it anymore.  
+With **ShareBoost**, every post becomes a **visual experience** — boosting visibility, clicks, and engagement.
 
 ---
 
-🛠 Installation
+# 🌟 HIGHLIGHTS
 
-npm install shareboost
+╔═════════════════════════════════════╗ 
+║     🚀 Speed     ║      🎨 Style     ║        🤖 Smartness ║ 
+╚═════════════════════════════════════╝
 
+- ✨ Next-level social media presence  
+- 📡 Integration with your workflow  
+- 🖌️ Designed for aesthetics and impact  
+- 🔥 Built for creators who demand more  
 
 ---
 
-👑 Developer: Ari
+## 👑 Developer
+
+Made with ❤️ by **Ari**
+
+---
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:ff00ff,100:6100ff&height=100&section=footer&text=SHAREBOOST&fontSize=30&fontAlign=50&fontAlignY=60&animation=scaleIn&fontColor=ffffff" />
+</p>
+
 
 ---
