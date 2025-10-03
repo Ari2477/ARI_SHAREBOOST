@@ -1,11 +1,9 @@
-
-
 # ⌬ SHAREBOOST ⌬
 
 > 🚀 Amplify. Design. Dominate.
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=28&duration=2800&pause=1800&color=FF00FF&center=true&vCenter=true&width=650&lines=SHAREBOOST;Next-Level+Engagement;3D+Banners+%7C+Neon+Designs+%7C+Automation" alt="ShareBoost Typing Banner"/>
+  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=28&duration=2800&pause=1800&color=FF00FF&center=true&vCenter=true&width=750&lines=SHAREBOOST;Next-Level+Engagement;3D+Banners+%7C+Neon+Designs+%7C+Automation" alt="ShareBoost Typing Banner"/>
 </p>
 
 <p align="center">
@@ -14,41 +12,61 @@
 
 ---
 
+## 🛰️ ASCII Logo
+
+██████  ██   ██  █████  ██████  ███████ ██████   ██████   ██████  ████████ ██       ██   ██ ██   ██ ██   ██ ██      ██   ██ ██    ██ ██    ██    ██
+██   ███ ███████ ███████ ██████  █████   ██████  ██    ██ ██    ██    ██
+██    ██ ██   ██ ██   ██ ██   ██ ██      ██   ██ ██    ██ ██    ██    ██
+██████  ██   ██ ██   ██ ██   ██ ███████ ██   ██  ██████   ██████     ██
+
+---
+
+## ✨ Badges
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-ff00ff?style=for-the-badge&logo=rocket" />
+  <img src="https://img.shields.io/badge/Design-3D%20Canvas-6100ff?style=for-the-badge&logo=adobe-photoshop" />
+  <img src="https://img.shields.io/badge/Build-Powerful-ff0088?style=for-the-badge&logo=javascript" />
+  <img src="https://img.shields.io/badge/Made%20With-❤-ff0055?style=for-the-badge" />
+</p>
+
+---
+
 # ⚡ ShareBoost
 
-**ShareBoost** is not just a tool — it’s a **movement**.  
-Turn every share into a **statement** with stunning banners, glowing aesthetics, and unstoppable reach.  
-
-Built for creators, developers, and communities who want their content to **stand out**.
+**ShareBoost** is not just a tool — it’s a **revolution**.  
+Turn every share into a **visual statement** with stunning banners, glowing aesthetics, and unstoppable engagement.  
 
 ---
 
-## ✨ Core Features
-- 🎨 **Dynamic 3D Banners** – Unique designs that pop  
-- ⚡ **Ultra-Fast Rendering** – No lag, no delays  
-- 🌌 **Gradient & Neon Effects** – Eye-catching and modern  
-- 🤖 **Automation-Ready** – Perfect for bots and scripts  
-- 🔧 **Fully Customizable** – Tailor everything to your brand  
+## 🌟 Core Features
+- 🎨 **Dynamic 3D Banners** – Designs that stand out  
+- ⚡ **Ultra-Fast Performance** – Built for instant impact  
+- 🌌 **Gradient & Neon Visuals** – Eye-catching & modern  
+- 🤖 **Automation-Ready** – Integrates seamlessly with workflows  
+- 🔧 **Customizable** – Adjust styles to match your brand  
 
 ---
 
-## 🌌 Why ShareBoost?
+## 🌌 Why Choose ShareBoost?
 
-Because plain shares don’t cut it anymore.  
-With **ShareBoost**, every post becomes a **visual experience** — boosting visibility, clicks, and engagement.
+Because ordinary shares don’t shine.  
+With **ShareBoost**, your content doesn’t just get shared — it **takes over the spotlight**.
 
 ---
 
-# 🌟 HIGHLIGHTS
+# 🌐 HIGHLIGHTS
 
-╔═════════════════════════════════════╗ 
-║     🚀 Speed     ║      🎨 Style     ║        🤖 Smartness ║ 
-╚═════════════════════════════════════╝
+╔══════════════════════════════════════╗ 
 
-- ✨ Next-level social media presence  
-- 📡 Integration with your workflow  
-- 🖌️ Designed for aesthetics and impact  
-- 🔥 Built for creators who demand more  
+ ║     🚀 Speed   ║       🎨 Style   ║        🤖 Smartness ║ 
+
+╚══════════════════════════════════════╝
+
+- ✨ Aesthetic-driven share banners  
+- 📡 Integration with bots, apps, and platforms  
+- 🔥 Optimized for creators, teams, and communities  
+- 🌟 Made to **captivate audiences** instantly  
 
 ---
 
