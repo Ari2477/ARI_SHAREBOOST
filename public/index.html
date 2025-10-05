@@ -212,20 +212,49 @@
       40% { opacity: 1; }
     }
 
-    .meta {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #9ea5ab;
-      font-size: 13px;
-    }
+.meta {
+  position: fixed;
+  bottom: 60px; 
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  color: #b0b3b8;
+  text-align: center;
+}
 
-    .meta i {
-      font-size: 22px;
-      margin-top: 6px;
-      color: var(--accent);
-    }
+.meta span:first-child {
+  font-size: 13px;
+  opacity: 0.85;
+  font-weight: 400;
+}
 
+.meta-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.meta-brand i {
+  font-size: 20px;
+  color: #b0b3b8;
+}
+
+.meta-brand span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #b0b3b8;
+  letter-spacing: 0.2px;
+}
+
+body {
+  background-color: #1c1e21; 
+}
      #mainContent {
   opacity: 0;
   transform: translateY(30px);
@@ -319,10 +348,13 @@ body.show-content {
     <div class="loading-dots">
       <div></div><div></div><div></div><div></div>
     </div>
-    <div class="meta">
-      <span>from</span>
-      <i class="fa-brands fa-github"></i>
-    </div>
+<div class="meta">
+  <span>from</span>
+  <div class="meta-brand">
+    <i class="fa-brands fa-github"></i>
+    <span>GitHub</span>
+  </div>
+</div>
   </div>
 <div id="mainContent">
     <div class="topbar">
