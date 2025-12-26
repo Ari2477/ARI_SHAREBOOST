@@ -339,7 +339,6 @@ body.show-content {
   color: var(--accent);
 }
 
-/* ===== BLOCK + / - BAR ===== */
 .block-control{
   display:flex;
   align-items:center;
@@ -373,19 +372,19 @@ body.show-content {
 .block-bar{
   padding:8px 12px;
   border-radius:12px;
-  background:rgba(255,255,255,0.02); /* transparent */
+  background:rgba(255,255,255,0.02); 
   border:1px solid rgba(255,255,255,0.08);
   font-size:20px;
   user-select:none;
   text-align:center;
   min-width:220px;
-  position: relative; /* for progress fill */
+  position: relative;
   overflow: hidden;
 }
 
 .block-bar span{
   position: relative;
-  z-index:2; /* above the progress fill */
+  z-index:2;
 }
 
 .block-bar.safe{color:#00ff99}
@@ -508,7 +507,6 @@ body.show-content {
           <label for="intervals"><i class="fa-solid fa-clock"></i> DELAY (seconds) — recommend 1</label>
           <input id="intervals" name="interval" type="number" placeholder="1" min="0">
        </div>
-<!-- Notice and acknowledgment checkbox -->
 <div class="card" style="margin-top:10px;">
   <div class="notice" style="display:flex;flex-direction:column;gap:4px;font-size:10px;">
     <span>
