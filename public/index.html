@@ -339,6 +339,92 @@ body.show-content {
   color: var(--accent);
 }
 
+/* ===== BLOCK + / - BAR ===== */
+.block-control{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin-top:10px;
+}
+
+.block-btn{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.05);
+  color:var(--accent);
+  font-size:22px;
+  font-weight:700;
+  cursor:pointer;
+  transition: transform 0.1s, background 0.2s, box-shadow 0.2s;
+}
+
+.block-btn:hover{
+  background:rgba(0,255,153,0.08);
+  box-shadow:0 4px 12px rgba(0,255,153,0.15);
+}
+
+.block-btn:active{
+  transform:scale(0.92);
+}
+
+.block-bar{
+  padding:8px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.02); /* transparent */
+  border:1px solid rgba(255,255,255,0.08);
+  font-size:20px;
+  user-select:none;
+  text-align:center;
+  min-width:220px;
+  position: relative; /* for progress fill */
+  overflow: hidden;
+}
+
+.block-bar span{
+  position: relative;
+  z-index:2; /* above the progress fill */
+}
+
+.block-bar.safe{color:#00ff99}
+.block-bar.warn{color:#ffd36a}
+.block-bar.danger{
+  color:#ff5c5c;
+  animation:pulseDanger 1.2s infinite;
+}
+
+@keyframes pulseDanger{
+  0%,100%{text-shadow:0 0 6px rgba(255,80,80,.4)}
+  50%{text-shadow:0 0 14px rgba(255,80,80,.9)}
+}
+
+.block-info{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  font-weight:700;
+  font-size:14px;
+}
+
+.block-status{
+  font-size:12px;
+  padding:2px 10px;
+  border-radius:999px;
+  background:rgba(0,255,153,.15);
+}
+
+.block-warning{
+  font-size:13px;
+  margin-top:6px;
+  padding:8px 12px;
+  border-radius:10px;
+  background:rgba(255,80,80,.1);
+  border:1px solid rgba(255,80,80,.3);
+  color:#ff9a9a;
+}
+
   </style>
 </head>
 <body>
@@ -394,15 +480,46 @@ body.show-content {
            </div>
 
            <div class="row">
-           <label for="amounts"><i class="fa-solid fa-hashtag"></i> LIMIT</label>
-           <input id="amounts" name="amount" type="number" placeholder="e.g. 1000" min="1" required>
-           </div>
+  <label><i class="fa-solid fa-hashtag"></i> LIMIT</label>
+
+  <div class="block-control">
+    <button type="button" class="block-btn" id="minusBtn">−</button>
+
+    <div class="block-bar" id="blockBar">
+      <span id="blockText">150</span>
+    </div>
+
+    <button type="button" class="block-btn" id="plusBtn">+</button>
+  </div>
+
+  <div class="block-info">
+    <span id="blockValue">150</span>
+    <span class="block-status" id="blockStatus">SAFE</span>
+  </div>
+
+  <div class="block-warning hidden" id="blockWarning">
+    ⚠ DANGER ZONE — risky usage
+  </div>
+
+  <input type="hidden" id="amounts" name="amount" value="150">
+</div>
 
           <div class="row">
           <label for="intervals"><i class="fa-solid fa-clock"></i> DELAY (seconds) — recommend 1</label>
           <input id="intervals" name="interval" type="number" placeholder="1" min="0">
        </div>
-  
+<!-- Notice and acknowledgment checkbox -->
+<div class="card" style="margin-top:10px;">
+  <div class="notice" style="display:flex;flex-direction:column;gap:4px;font-size:10px;">
+    <span>
+      <i class="fa-solid fa-triangle-exclamation"></i> NOTICE: Shareboost limit depends on your Facebook account/Appstate. Use responsibly or test with a dummy account.
+    </span>
+    <label style="display:flex;align-items:center;gap:6px;color:#ffdca3;">
+      <input type="checkbox" id="ackNotice" style="width:19px;height:19px;">
+      I have read the notice.
+    </label>
+  </div>
+</div>
           <div style="display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap">
             <button class="btn-primary" type="submit" id="submit-button">
               <span class="btn-text">SUBMIT</span>
@@ -438,11 +555,46 @@ body.show-content {
       <i class="fa-brands fa-github"></i> GitHub
     </button>
   </div>
-  <div class="notice">
-    <i class="fa-solid fa-triangle-exclamation"></i> NOTICE: Shareboost is a tool to help boost shares. Use responsibly.
+ 
+</div>
+<div id="noticePopup" style="
+  display:none; 
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+">
+  <div style="
+    background:linear-gradient(180deg,#131a1d,#0f1416);
+    padding:25px 30px;
+    border-radius:16px;
+    box-shadow:0 6px 20px rgba(0,255,153,0.3);
+    max-width:400px;
+    text-align:center;
+    color:#ffdca3;
+  ">
+    <i class="fa-solid fa-triangle-exclamation" style="font-size:28px;margin-bottom:10px;"></i>
+    <h3 style="margin:10px 0;font-size:18px;color:#00ff99;">NOTICE</h3>
+    <p style="font-size:14px;line-height:1.5;">
+      You must agreed the notice before submitting. Please check the box below.
+    </p>
+    <button id="closePopup" style="
+      margin-top:15px;
+      padding:10px 20px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,#00ff99,#00d19a);
+      color:#08110f;
+      font-weight:700;
+      cursor:pointer;
+      font-size:14px;
+    ">OK</button>
   </div>
 </div>
-
 <aside class="col-right hidden" id="guidePanel">
   <div class="card guide-card">
     <h3 style="display:flex;justify-content:space-between;align-items:center;">
@@ -524,7 +676,24 @@ document.getElementById("translateBtn").addEventListener("click", () => {
 
 renderGuide();
 </script>
+  <script>
+const mainForm = document.getElementById('mainForm');
+const ackNotice = document.getElementById('ackNotice');
+const noticePopup = document.getElementById('noticePopup');
+const closePopup = document.getElementById('closePopup');
 
+mainForm.addEventListener('submit', function(e) {
+  if (!ackNotice.checked) {
+    e.preventDefault(); 
+    noticePopup.style.display = 'flex'; 
+    return false;
+  }
+});
+
+closePopup.addEventListener('click', function() {
+  noticePopup.style.display = 'none';
+});
+    </script>
 <script>
   window.addEventListener("load", () => {
     setTimeout(() => {
@@ -572,6 +741,91 @@ renderGuide();
     styleSheet.innerHTML = '@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';
     document.head.appendChild(styleSheet);
   </script>
+
+      <script>
+(() => {
+  const blockText = document.getElementById("blockText");
+  const valueText = document.getElementById("blockValue");
+  const status = document.getElementById("blockStatus");
+  const warning = document.getElementById("blockWarning");
+  const hidden = document.getElementById("amounts");
+  const plus = document.getElementById("plusBtn");
+  const minus = document.getElementById("minusBtn");
+  const bar = document.getElementById("blockBar");
+
+  const progressFill = document.createElement("div");
+  progressFill.style.height = "100%";
+  progressFill.style.width = "0%";
+  progressFill.style.background = "linear-gradient(90deg, rgba(0,255,153,0.3), rgba(0,209,154,0.3))";
+  progressFill.style.position = "absolute";
+  progressFill.style.top = "0";
+  progressFill.style.left = "0";
+  progressFill.style.borderRadius = "10px";
+  progressFill.style.transition = "width 0.2s ease";
+  bar.style.position = "relative";
+  bar.prepend(progressFill);
+
+  const minValue = 150;
+  const maxValue = 10000;
+  const step = 50;
+  let currentValue = minValue;
+
+  let holdInterval = null;
+
+  function render(){
+    const percent = ((currentValue - minValue) / (maxValue - minValue)) * 100;
+    progressFill.style.width = percent + "%";
+
+    blockText.textContent = currentValue;
+    valueText.textContent = currentValue;
+    hidden.value = currentValue;
+
+    bar.classList.remove("safe","warn","danger");
+
+    if(currentValue <= 2000){
+      bar.classList.add("safe");
+      status.textContent = "SAFE";
+      warning.classList.add("hidden");
+    } else if(currentValue < 7000){
+      bar.classList.add("warn");
+      status.textContent = "WARNING";
+      warning.classList.add("hidden");
+    } else {
+      bar.classList.add("danger");
+      status.textContent = "DANGER";
+      warning.classList.remove("hidden");
+    }
+  }
+
+  function changeValue(delta){
+    currentValue = Math.min(Math.max(currentValue + delta, minValue), maxValue);
+    render();
+  }
+
+  function startHold(delta){
+    changeValue(delta);
+    holdInterval = setInterval(() => changeValue(delta), 100); 
+  }
+
+  function stopHold(){
+    clearInterval(holdInterval);
+  }
+
+  plus.addEventListener("mousedown", () => startHold(step));
+  plus.addEventListener("touchstart", () => startHold(step));
+  plus.addEventListener("mouseup", stopHold);
+  plus.addEventListener("mouseleave", stopHold);
+  plus.addEventListener("touchend", stopHold);
+
+  minus.addEventListener("mousedown", () => startHold(-step));
+  minus.addEventListener("touchstart", () => startHold(-step));
+  minus.addEventListener("mouseup", stopHold);
+  minus.addEventListener("mouseleave", stopHold);
+  minus.addEventListener("touchend", stopHold);
+
+  render();
+})();
+</script>
 
 <script>   
     async function submitForm(event) {
