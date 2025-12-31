@@ -10,9 +10,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const total = new Map();
 
-/* =======================
-   VIEW TOTAL STATUS
-======================= */
 app.get('/total', (req, res) => {
   const data = Array.from(total.values()).map((link, index) => ({
     session: index + 1,
@@ -25,16 +22,10 @@ app.get('/total', (req, res) => {
   res.json(JSON.parse(JSON.stringify(data || [], null, 2)));
 });
 
-/* =======================
-   MAIN PAGE
-======================= */
 app.get('/', (res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-/* =======================
-   SUBMIT SHARE JOB
-======================= */
 app.post('/api/submit', async (req, res) => {
   const { cookie, url, amount, interval } = req.body;
 
@@ -63,9 +54,6 @@ app.post('/api/submit', async (req, res) => {
   }
 });
 
-/* =======================
-   SHARE LOGIC
-======================= */
 async function share(cookies, url, amount, interval) {
   const id = await getPostID(url);
   const accessToken = await getAccessToken(cookies);
@@ -83,10 +71,10 @@ async function share(cookies, url, amount, interval) {
     target: amount,
     status: 'running',
     _timer: null,
-    cookies,       // save cookies for resume
-    accessToken,   // save token for resume
-    interval,      // save interval
-    sharedCount: 0 // track progress
+    cookies,       
+    accessToken,   
+    interval,      
+    sharedCount: 0
   });
 
   const headers = {
@@ -131,21 +119,16 @@ async function share(cookies, url, amount, interval) {
 
   const timer = setInterval(sharePost, interval * 1000);
 
-  // save timer reference
   const job = total.get(postId);
   job._timer = timer;
   total.set(postId, job);
 
-  // original timeout to auto-stop
   setTimeout(() => {
     clearInterval(timer);
     total.delete(postId);
   }, amount * interval * 1000);
 }
 
-/* =======================
-   CONTROL ROUTES
-======================= */
 app.post('/api/pause/:id', (req, res) => {
   const job = total.get(req.params.id);
   if (!job) return res.status(404).json({ error: 'Not found' });
@@ -218,9 +201,6 @@ app.post('/api/stop/:id', (req, res) => {
   res.json({ success: true });
 });
 
-/* =======================
-   HELPERS
-======================= */
 async function getPostID(url) {
   try {
     const response = await axios.post(
