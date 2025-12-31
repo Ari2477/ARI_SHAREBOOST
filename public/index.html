@@ -539,7 +539,7 @@ body.show-content {
   </h2>
   <div id="processing" class="process-list"></div>
 </div>
-
+<div id="jobs"></div>
 <div class="card" id="modCard">
   <h2>MODERATOR</h2>
   <div class="meta-buttons">
@@ -879,5 +879,52 @@ renderGuide();
 
     linkOfProcessing();
   </script>
+
+<script>
+async function fetchJobs() {
+  const res = await fetch('/total');
+  const jobs = await res.json();
+  const container = document.getElementById('jobs');
+  container.innerHTML = '';
+
+  jobs.forEach(job => {
+    const div = document.createElement('div');
+    div.id = `job-${job.id}`;
+    div.style.border = '1px solid #ccc';
+    div.style.padding = '10px';
+    div.style.margin = '5px';
+
+    div.innerHTML = `
+      <strong>URL:</strong> ${job.url} <br>
+      <strong>Count:</strong> ${job.count}/${job.target} <br>
+      <strong>Status:</strong> <span id="status-${job.id}">${job.status}</span> <br>
+      <button onclick="pauseJob('${job.id}')">Pause</button>
+      <button onclick="resumeJob('${job.id}')">Resume</button>
+      <button onclick="stopJob('${job.id}')">Stop</button>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+// ================== BUTTON FUNCTIONS ==================
+async function pauseJob(id) {
+  await fetch(`/api/pause/${id}`, { method: 'POST' });
+  document.getElementById(`status-${id}`).innerText = 'paused';
+}
+
+async function resumeJob(id) {
+  await fetch(`/api/resume/${id}`, { method: 'POST' });
+  document.getElementById(`status-${id}`).innerText = 'running';
+}
+
+async function stopJob(id) {
+  await fetch(`/api/stop/${id}`, { method: 'POST' });
+  document.getElementById(`job-${id}`).remove();
+}
+
+// ================== AUTO REFRESH ==================
+setInterval(fetchJobs, 2000); // refresh every 2 seconds
+</script>
 </body>
 </html>
