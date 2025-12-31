@@ -423,7 +423,53 @@ body.show-content {
   border:1px solid rgba(255,80,80,.3);
   color:#ff9a9a;
 }
+    
+#jobs .job-url {
+  display: inline-block;
+  max-width: 180px;   
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
 
+#jobs div {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  font-size: 13px;
+  color: #e6eef1;
+}
+
+#jobs button {
+  margin-top: 4px;
+  margin-right: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,255,153,0.05);
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+#jobs button:hover {
+  background: rgba(0,255,153,0.12);
+}
+
+@media (max-width:480px){
+  #jobs .job-url {
+    max-width: 120px;
+  }
+  #jobs button {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+}
+    
   </style>
 </head>
 <body>
@@ -882,48 +928,56 @@ renderGuide();
 
 <script>
 async function fetchJobs() {
-  const res = await fetch('/total');
-  const jobs = await res.json();
-  const container = document.getElementById('jobs');
-  container.innerHTML = '';
+  try {
+    const res = await fetch('/total');
+    const jobs = await res.json();
+    const container = document.getElementById('jobs');
+    container.innerHTML = '';
 
-  jobs.forEach(job => {
-    const div = document.createElement('div');
-    div.id = `job-${job.id}`;
-    div.style.border = '1px solid #ccc';
-    div.style.padding = '10px';
-    div.style.margin = '5px';
+    jobs.forEach(job => {
+      const div = document.createElement('div');
+      div.id = `job-${job.id}`;
 
-    div.innerHTML = `
-      <strong>URL:</strong> ${job.url} <br>
-      <strong>Count:</strong> ${job.count}/${job.target} <br>
-      <strong>Status:</strong> <span id="status-${job.id}">${job.status}</span> <br>
-      <button onclick="pauseJob('${job.id}')">Pause</button>
-      <button onclick="resumeJob('${job.id}')">Resume</button>
-      <button onclick="stopJob('${job.id}')">Stop</button>
-    `;
+      div.innerHTML = `
+        <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span> <br>
+        <strong>Count:</strong> ${job.count}/${job.target} <br>
+        <strong>Status:</strong> <span id="status-${job.id}">${job.status}</span> <br>
+        <button onclick="pauseJob('${job.id}')">Pause</button>
+        <button onclick="resumeJob('${job.id}')">Resume</button>
+        <button onclick="stopJob('${job.id}')">Stop</button>
+      `;
 
-    container.appendChild(div);
-  });
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error('Error fetching jobs:', err);
+  }
 }
 
 // ================== BUTTON FUNCTIONS ==================
 async function pauseJob(id) {
-  await fetch(`/api/pause/${id}`, { method: 'POST' });
-  document.getElementById(`status-${id}`).innerText = 'paused';
+  try {
+    await fetch(`/api/pause/${id}`, { method: 'POST' });
+    document.getElementById(`status-${id}`).innerText = 'paused';
+  } catch(err) { console.error(err); }
 }
 
 async function resumeJob(id) {
-  await fetch(`/api/resume/${id}`, { method: 'POST' });
-  document.getElementById(`status-${id}`).innerText = 'running';
+  try {
+    await fetch(`/api/resume/${id}`, { method: 'POST' });
+    document.getElementById(`status-${id}`).innerText = 'running';
+  } catch(err) { console.error(err); }
 }
 
 async function stopJob(id) {
-  await fetch(`/api/stop/${id}`, { method: 'POST' });
-  document.getElementById(`job-${id}`).remove();
+  try {
+    await fetch(`/api/stop/${id}`, { method: 'POST' });
+    document.getElementById(`job-${id}`).remove();
+  } catch(err) { console.error(err); }
 }
 
 // ================== AUTO REFRESH ==================
+fetchJobs(); // initial load
 setInterval(fetchJobs, 2000); // refresh every 2 seconds
 </script>
 </body>
