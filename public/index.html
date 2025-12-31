@@ -424,20 +424,34 @@ body.show-content {
   color:#ff9a9a;
 }
 
-  #jobs .job-url {
+    #jobs .job-url {
   display: inline-block;
-  max-width: 100%;       /* palitan 180px para full width ng container */
-  overflow-x: auto;      /* scroll sa horizontal kung mahaba */
-  white-space: nowrap;   /* hindi magkak-break ang text */
+  max-width: 180px;       /* fixed width ng URL area */
+  overflow-x: auto;       /* swipe lang sa gilid kung mahaba */
+  white-space: nowrap;    /* hindi mag-break sa multiple lines */
   vertical-align: middle;
   padding: 2px 4px;
   border-radius: 4px;
   background: rgba(255,255,255,0.05);
   color: var(--accent);
-  font-family: monospace; /* para mas malinaw ang URL */
+  font-family: monospace; /* para malinaw ang URL */
   font-size: 13px;
+
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,255,153,0.3) transparent;
 }
 
+#jobs .job-url::-webkit-scrollbar {
+  height: 4px; /* horizontal scrollbar height */
+}
+
+#jobs .job-url::-webkit-scrollbar-thumb {
+  background: rgba(0,255,153,0.3);
+  border-radius: 2px;
+}
+
+/* Container ng bawat job */
 #jobs div {
   border: 1px solid rgba(255,255,255,0.1);
   padding: 10px;
@@ -447,16 +461,13 @@ body.show-content {
   font-size: 13px;
   color: #e6eef1;
 
-  display: flex;         /* flex container para buttons at URL magkasama */
+  display: flex;           /* para nasa row ang URL at buttons */
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 8px;                /* space sa pagitan ng URL at buttons */
 }
 
 #jobs button {
-  flex-shrink: 0;         /* hindi magsusiksik ang button */
-  margin-top: 4px;
-  margin-right: 4px;
+  flex-shrink: 0;          /* hindi magsusiksik ang button */
   padding: 4px 8px;
   font-size: 12px;
   border-radius: 6px;
@@ -471,25 +482,15 @@ body.show-content {
   background: rgba(0,255,153,0.12);
 }
 
-#jobs .job-url::-webkit-scrollbar {
-  height: 4px;
-}
-
-#jobs .job-url::-webkit-scrollbar-thumb {
-  background: rgba(0,255,153,0.3);
-  border-radius: 2px;
-}
-
 @media (max-width:480px){
   #jobs .job-url {
-    font-size: 11px;
+    max-width: 120px; /* mas maliit sa mobile */
   }
   #jobs button {
     padding: 3px 6px;
     font-size: 11px;
   }
 }
-    
   </style>
 </head>
 <body>
