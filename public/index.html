@@ -424,26 +424,23 @@ body.show-content {
   color:#ff9a9a;
 }
 
-    #jobs .job-url {
-  display: inline-block;
-  max-width: 180px;       /* fixed width ng URL area */
-  overflow-x: auto;       /* swipe lang sa gilid kung mahaba */
-  white-space: nowrap;    /* hindi mag-break sa multiple lines */
-  vertical-align: middle;
-  padding: 2px 4px;
+#jobs .job-url {
+  display: block;          /* block para sa column effect */
+  max-width: 100%;         /* kasya sa container */
+  overflow-x: auto;        /* puwede i-swipe horizontally */
+  white-space: nowrap;
+  padding: 4px 6px;
   border-radius: 4px;
   background: rgba(255,255,255,0.05);
-  color: var(--accent);
-  font-family: monospace; /* para malinaw ang URL */
+  font-family: monospace;
   font-size: 13px;
 
-  /* Scrollbar styling */
-  scrollbar-width: thin;
+  scrollbar-width: thin;           /* Firefox */
   scrollbar-color: rgba(0,255,153,0.3) transparent;
 }
 
 #jobs .job-url::-webkit-scrollbar {
-  height: 4px; /* horizontal scrollbar height */
+  height: 4px;                     /* scrollbar height for webkit */
 }
 
 #jobs .job-url::-webkit-scrollbar-thumb {
@@ -451,7 +448,7 @@ body.show-content {
   border-radius: 2px;
 }
 
-/* Container ng bawat job */
+/* Keep the box layout unchanged */
 #jobs div {
   border: 1px solid rgba(255,255,255,0.1);
   padding: 10px;
@@ -461,13 +458,14 @@ body.show-content {
   font-size: 13px;
   color: #e6eef1;
 
-  display: flex;           /* para nasa row ang URL at buttons */
-  align-items: center;
-  gap: 8px;                /* space sa pagitan ng URL at buttons */
+  display: flex;
+  flex-direction: column; /* column layout: URL on top, count/buttons below */
+  gap: 6px;
 }
 
 #jobs button {
-  flex-shrink: 0;          /* hindi magsusiksik ang button */
+  margin-top: 4px;
+  margin-right: 4px;
   padding: 4px 8px;
   font-size: 12px;
   border-radius: 6px;
@@ -484,13 +482,15 @@ body.show-content {
 
 @media (max-width:480px){
   #jobs .job-url {
-    max-width: 120px; /* mas maliit sa mobile */
+    max-width: 100%;
+    font-size: 12px;
   }
   #jobs button {
     padding: 3px 6px;
     font-size: 11px;
   }
 }
+    
   </style>
 </head>
 <body>
