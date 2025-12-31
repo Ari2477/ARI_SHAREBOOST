@@ -423,32 +423,26 @@ body.show-content {
   border:1px solid rgba(255,80,80,.3);
   color:#ff9a9a;
 }
-
+ 
 #jobs .job-url {
-  display: block;          /* block para sa column effect */
-  max-width: 100%;         /* kasya sa container */
-  overflow-x: auto;        /* puwede i-swipe horizontally */
-  white-space: nowrap;
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.05);
-  font-family: monospace;
-  font-size: 13px;
+  display: inline-block;
+  max-width: 180px;   
+  overflow-x: auto;    
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  vertical-align: middle;
 
-  scrollbar-width: thin;           /* Firefox */
-  scrollbar-color: rgba(0,255,153,0.3) transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
 #jobs .job-url::-webkit-scrollbar {
-  height: 4px;                     /* scrollbar height for webkit */
+  height: 4px;
 }
-
 #jobs .job-url::-webkit-scrollbar-thumb {
   background: rgba(0,255,153,0.3);
   border-radius: 2px;
 }
 
-/* Keep the box layout unchanged */
 #jobs div {
   border: 1px solid rgba(255,255,255,0.1);
   padding: 10px;
@@ -457,10 +451,6 @@ body.show-content {
   background: rgba(255,255,255,0.02);
   font-size: 13px;
   color: #e6eef1;
-
-  display: flex;
-  flex-direction: column; /* column layout: URL on top, count/buttons below */
-  gap: 6px;
 }
 
 #jobs button {
@@ -482,8 +472,7 @@ body.show-content {
 
 @media (max-width:480px){
   #jobs .job-url {
-    max-width: 100%;
-    font-size: 12px;
+    max-width: 120px;
   }
   #jobs button {
     padding: 3px 6px;
