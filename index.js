@@ -64,7 +64,7 @@ app.post('/api/submit', async (req, res) => {
 });
 
 /* =======================
-   SHARE LOGIC (UNCHANGED + EXTENDED)
+   SHARE LOGIC
 ======================= */
 async function share(cookies, url, amount, interval) {
   const id = await getPostID(url);
@@ -82,7 +82,11 @@ async function share(cookies, url, amount, interval) {
     count: 0,
     target: amount,
     status: 'running',
-    _timer: null
+    _timer: null,
+    cookies,       // save cookies for resume
+    accessToken,   // save token for resume
+    interval,      // save interval
+    sharedCount: 0 // track progress
   });
 
   const headers = {
@@ -95,7 +99,6 @@ async function share(cookies, url, amount, interval) {
   };
 
   let sharedCount = 0;
-  let timer;
 
   async function sharePost() {
     const job = total.get(postId);
@@ -109,32 +112,31 @@ async function share(cookies, url, amount, interval) {
       );
 
       if (response.status === 200) {
-        total.set(postId, {
-          ...job,
-          count: job.count + 1
-        });
+        job.count++;
+        job.sharedCount++;
+        total.set(postId, job);
         sharedCount++;
       }
 
-      if (sharedCount === amount) {
-        clearInterval(timer);
+      if (sharedCount >= amount) {
+        clearInterval(job._timer);
+        total.delete(postId);
       }
 
     } catch (error) {
-      clearInterval(timer);
+      clearInterval(job._timer);
       total.delete(postId);
     }
   }
 
-  timer = setInterval(sharePost, interval * 1000);
+  const timer = setInterval(sharePost, interval * 1000);
 
-  // SAVE TIMER COPY (ADD-ON ONLY)
-  total.set(postId, {
-    ...total.get(postId),
-    _timer: timer
-  });
+  // save timer reference
+  const job = total.get(postId);
+  job._timer = timer;
+  total.set(postId, job);
 
-  // ORIGINAL TIMEOUT (UNCHANGED)
+  // original timeout to auto-stop
   setTimeout(() => {
     clearInterval(timer);
     total.delete(postId);
@@ -142,7 +144,7 @@ async function share(cookies, url, amount, interval) {
 }
 
 /* =======================
-   CONTROL ROUTES (ADD ONLY)
+   CONTROL ROUTES
 ======================= */
 app.post('/api/pause/:id', (req, res) => {
   const job = total.get(req.params.id);
@@ -150,6 +152,7 @@ app.post('/api/pause/:id', (req, res) => {
 
   clearInterval(job._timer);
   job.status = 'paused';
+  total.set(req.params.id, job);
 
   res.json({ success: true });
 });
@@ -160,7 +163,47 @@ app.post('/api/resume/:id', (req, res) => {
   if (job.status !== 'paused') return res.json({ success: false });
 
   job.status = 'running';
-  job._timer = setInterval(() => {}, 1000);
+
+  const { cookies, accessToken, interval, target, sharedCount } = job;
+  const id = job.id;
+
+  async function sharePost() {
+    const currentJob = total.get(req.params.id);
+    if (!currentJob || currentJob.status !== 'running') return;
+
+    try {
+      const response = await axios.post(
+        `https://graph.facebook.com/me/feed?link=https://m.facebook.com/${id}&published=0&access_token=${accessToken}`,
+        {},
+        { headers: {
+          'accept': '*/*',
+          'accept-encoding': 'gzip, deflate',
+          'connection': 'keep-alive',
+          'content-length': '0',
+          'cookie': cookies,
+          'host': 'graph.facebook.com'
+        }}
+      );
+
+      if (response.status === 200) {
+        currentJob.count++;
+        currentJob.sharedCount++;
+        total.set(req.params.id, currentJob);
+      }
+
+      if (currentJob.sharedCount >= target) {
+        clearInterval(currentJob._timer);
+        total.delete(req.params.id);
+      }
+
+    } catch (err) {
+      clearInterval(currentJob._timer);
+      total.delete(req.params.id);
+    }
+  }
+
+  job._timer = setInterval(sharePost, interval * 1000);
+  total.set(req.params.id, job);
 
   res.json({ success: true });
 });
@@ -176,7 +219,7 @@ app.post('/api/stop/:id', (req, res) => {
 });
 
 /* =======================
-   HELPERS (UNCHANGED)
+   HELPERS
 ======================= */
 async function getPostID(url) {
   try {
@@ -230,4 +273,4 @@ async function convertCookie(cookie) {
   });
 }
 
-app.listen(5000);
+app.listen(5000, () => console.log('Server running on port 5000'));
