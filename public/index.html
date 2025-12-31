@@ -424,61 +424,64 @@ body.show-content {
   color:#ff9a9a;
 }
  
-#jobs .job-url {
-  display: inline-block;
-  max-width: 180px;   
-  overflow-x: auto;    
-  text-overflow: ellipsis;
-  white-space: nowrap; 
-  vertical-align: middle;
-
-  -webkit-overflow-scrolling: touch;
-}
-
-#jobs .job-url::-webkit-scrollbar {
-  height: 4px;
-}
-#jobs .job-url::-webkit-scrollbar-thumb {
-  background: rgba(0,255,153,0.3);
-  border-radius: 2px;
-}
-
-#jobs div {
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.02);
-  font-size: 13px;
-  color: #e6eef1;
-}
-
-#jobs button {
-  margin-top: 4px;
-  margin-right: 4px;
-  padding: 4px 8px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(0,255,153,0.05);
-  color: var(--accent);
-  cursor: pointer;
-  transition: 0.15s;
-}
-
-#jobs button:hover {
-  background: rgba(0,255,153,0.12);
-}
-
-@media (max-width:480px){
-  #jobs .job-url {
-    max-width: 120px;
+  #jobs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
   }
-  #jobs button {
-    padding: 3px 6px;
-    font-size: 11px;
+  .job-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 18px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,255,153,0.1);
   }
-}
+  .job-header {
+    font-weight: 600;
+    font-size: 14px;
+    color: #00ff99;
+    word-wrap: break-word;
+  }
+  .job-status {
+    font-weight: 500;
+    font-size: 13px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+  .running { background: #00ff9955; color: #000; }
+  .paused { background: #ffd36a55; color: #000; }
+  .stopped { background: #ff5c5c55; color: #000; }
+
+  .job-buttons {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .job-buttons button {
+    flex: 1;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .btn-pause { background: #ffd36a; color: #000; }
+  .btn-resume { background: #00ff99; color: #000; }
+  .btn-stop { background: #ff5c5c; }
+  
+  @media (max-width: 600px){
+    .job-card {
+      width: 100%;
+    }
+  }
     
   </style>
 </head>
