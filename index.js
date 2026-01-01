@@ -102,16 +102,16 @@ async function share(cookies, url, amount, interval) {
       );
 
       if (response.status === 200) {
-        job.count++;
-        job.sharedCount++;
-        total.set(postId, job);
-        sharedCount++;
+        currentJob.count++;
+        currentJob.sharedCount++;
+        total.set(req.params.id, currentJob);
       }
 
-      if (sharedCount >= amount) {
-        job.status = 'completed';   
-        clearInterval(job._timer);
-        total.delete(postId);
+      if (currentJob.sharedCount >= currentJob.target) {
+        currentJob.status = 'completed';
+        clearInterval(currentJob._timer);
+        total.delete(req.params.id);
+        return; 
       }
 
     } catch (error) {
