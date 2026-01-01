@@ -114,8 +114,9 @@ async function share(cookies, url, amount, interval) {
        }
 
     } catch (error) {
-        clearInterval(job._timer);
-        total.delete(postId);
+       clearInterval(job._timer);
+       job.status = 'error';
+       total.set(postId, job);
     }
 }
 
@@ -124,11 +125,6 @@ async function share(cookies, url, amount, interval) {
   const job = total.get(postId);
   job._timer = timer;
   total.set(postId, job);
-
-  setTimeout(() => {
-    clearInterval(timer);
-    total.delete(postId);
-  }, amount * interval * 1000);
 }
 
 app.post('/api/pause/:id', (req, res) => {
@@ -184,8 +180,9 @@ app.post('/api/resume/:id', (req, res) => {
 
     } catch (err) {
       clearInterval(currentJob._timer);
-      total.delete(req.params.id);
-    }
+      currentJob.status = 'error';
+      total.set(req.params.id, currentJob);
+     }
   }
 
   job._timer = setInterval(sharePost, interval * 1000);
