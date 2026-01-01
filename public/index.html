@@ -428,10 +428,10 @@ body.show-content {
   --accent: #00ff99;
 }
 
-#jobs .job-url {
+.job-url-container {
   display: inline-block;
   max-width: 100%;
-  overflow-x: auto;           
+  overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -450,16 +450,16 @@ body.show-content {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#jobs .job-url::-webkit-scrollbar {
-  display: none;                      
+.job-url-container::-webkit-scrollbar {
+  display: none;
 }
 
-#jobs .job-url:hover {
+.job-url-container:hover {
   transform: scale(1.03);
   box-shadow: 0 0 12px rgba(0,255,153,0.5);
 }
 
-#jobs div {
+#jobs .job-box {
   position: relative;
   overflow: hidden;
   border-radius: 14px;
@@ -475,14 +475,14 @@ body.show-content {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-#jobs div.running {
+#jobs .job-box.running {
   border-color: #00ff66;
 }
-#jobs div.paused {
+#jobs .job-box.paused {
   border-color: #ff4d4d;
 }
 
-#jobs div::before {
+#jobs .job-box::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -497,7 +497,7 @@ body.show-content {
   animation: gradientShift 6s ease infinite;
 }
 
-#jobs div > * {
+#jobs .job-box > * {
   position: relative;
   z-index: 1;
 }
@@ -508,12 +508,12 @@ body.show-content {
   100% { background-position: 0% 50%; }
 }
 
-#jobs div:hover {
+#jobs .job-box:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0,255,153,0.35);
 }
-
-#jobs button {
+ 
+.job-buttons button {
   margin-top: 6px;
   margin-right: 6px;
   padding: 5px 10px;
@@ -529,40 +529,25 @@ body.show-content {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: all 0.2s ease;
-  position: relative;
-  z-index: 1;
 }
 
-#jobs button:hover {
+.job-buttons button:hover {
   background: rgba(0,255,153,0.18);
   box-shadow: 0 0 14px rgba(0,255,153,0.5);
   transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
-  #jobs .job-url {
+  .job-url-container {
     display: block;
     max-width: 100%;       
     font-size: 12px;
     padding: 5px 6px;
   }
-  #jobs button {
+  .job-buttons button {
     padding: 3px 6px;
     font-size: 11px;
   }
-  
-.job-buttons button {
-  background: rgba(255,255,255,0.08);
-  border: none;
-  padding: 8px 12px;
-  margin-right: 6px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: #fff;
-}
-
-.job-buttons button:hover {
-  background: rgba(255,255,255,0.2);
 }
   </style>
 </head>
