@@ -1085,14 +1085,7 @@ if (job.status === 'running') {
   stopBtn.onclick = () => stopJob(job.id);
   buttonsDiv.appendChild(stopBtn);
 }
-      }
-
-      div.innerHTML = `
-        <strong>URL:</strong> <span title="${job.url}">${job.url}</span><br>
-        <strong>Count:</strong> ${job.count}/${job.target}<br>
-        <strong>Status:</strong> ${job.status}<br><br>
-        ${buttons}
-      `;
+   }
 
       container.appendChild(div);
     });
