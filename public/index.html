@@ -424,27 +424,33 @@ body.show-content {
   color:#ff9a9a;
 }
  
-/* ===============================
-   JOB CARD (COMPACT)
-================================ */
+ /* JOB CARD – WALANG LALABAS */
 #jobs .job {
+  position: relative;
+  overflow: hidden;              /* 🔒 CLIP EVERYTHING */
   border: 1px solid rgba(255,255,255,0.08);
   padding: 6px;
   margin: 4px 0;
   border-radius: 8px;
   background: rgba(255,255,255,0.025);
-
   font-size: 11px;
   color: #e6eef1;
-
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+/* STATUS COLORS */
+#jobs .running { --accent:#00ff99; }
+#jobs .paused  { --accent:#ff4d4d; }
+#jobs .stopped { --accent:#9aa4aa; }
+
+/* URL – NAKAPALOOB LANG, SWIPE SA LOOB */
 #jobs .job-url {
-  max-width: 140px;
-  overflow-x: auto;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;              /* swipe HERE */
+  overflow-y: hidden;
   white-space: nowrap;
 
   padding: 2px 5px;
@@ -458,31 +464,39 @@ body.show-content {
   scroll-behavior: smooth;
   touch-action: pan-x;
 
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 14%,
-    black 86%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 14%,
-    black 86%,
-    transparent 100%
-  );
-
-  scrollbar-width: none;
+  scrollbar-width: none;         /* no visual overflow */
 }
 #jobs .job-url::-webkit-scrollbar {
   display: none;
 }
 
-#jobs .running { --accent:#00ff99; }
-#jobs .paused  { --accent:#ff4d4d; }
-#jobs .stopped { --accent:#9aa4aa; }
+/* FADE HINT (OPTIONAL PERO SAFE) */
+#jobs .job-url {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
 
+/* BOTTOM ROW */
+.job-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+/* STATUS LABEL */
 #jobs .status {
   font-size: 10px;
   padding: 1px 5px;
@@ -492,16 +506,15 @@ body.show-content {
   background: color-mix(in srgb, var(--accent) 15%, transparent);
 }
 
+/* BUTTONS – AUTO COLOR */
 #jobs .job button {
   padding: 2px 6px;
   font-size: 10px;
   border-radius: 5px;
   cursor: pointer;
-
   border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--accent);
-
   transition: 0.15s ease;
 }
 
@@ -513,24 +526,16 @@ body.show-content {
   transform: scale(0.95);
 }
 
-.job-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-}
-
+/* MOBILE */
 @media (max-width:480px){
+  #jobs .job {
+    padding: 5px;
+  }
+
   #jobs .job-url {
-    max-width: 110px;
     font-size: 10px;
   }
-
-  #jobs .job button {
-    padding: 2px 5px;
-    font-size: 9px;
-  }
-    }
+    } 
     
   </style>
 </head>
