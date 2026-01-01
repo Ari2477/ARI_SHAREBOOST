@@ -1016,35 +1016,44 @@ async function fetchJobs() {
     const container = document.getElementById('jobs');
     const processContainer = document.getElementById('processContainer');
 
-    container.innerHTML = ''; 
+    if (!container) return;
 
     if (!jobs || jobs.length === 0) {
+      container.innerHTML = '';
       if (processContainer) processContainer.style.display = 'none';
       return;
     }
 
     let hasActiveJob = false;
+    const activeIds = new Set();
 
     jobs.forEach(job => {
       const elId = `job-${job.id}`;
-      const existingDiv = document.getElementById(elId);
+      let div = document.getElementById(elId);
 
-      if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target) {
-        if (existingDiv) existingDiv.remove();
+      if (
+        job.status === 'completed' ||
+        job.status === 'stopped' ||
+        job.count >= job.target
+      ) {
+        if (div) div.remove();
         return;
       }
 
       hasActiveJob = true;
+      activeIds.add(elId);
 
-      const div = document.createElement('div');
-      div.id = elId;
-      div.style.border = '1px solid rgba(255,255,255,0.08)';
-      div.style.padding = '10px';
-      div.style.margin = '6px 0';
-      div.style.borderRadius = '8px';
+      if (!div) {
+        div = document.createElement('div');
+        div.id = elId;
+        div.style.border = '1px solid rgba(255,255,255,0.08)';
+        div.style.padding = '10px';
+        div.style.margin = '6px 0';
+        div.style.borderRadius = '8px';
+        container.appendChild(div);
+      }
 
       let buttons = '';
-
       if (job.status === 'running') {
         buttons = `
           <button onclick="pauseJob('${job.id}')">Pause</button>
@@ -1064,12 +1073,14 @@ async function fetchJobs() {
         <strong>Count:</strong> ${job.count}/${job.target}<br>
 
         <strong>Status:</strong>
-        <span id="status-${job.id}">${job.status}</span><br>
+        <span>${job.status}</span><br>
 
         ${buttons}
       `;
+    });
 
-      container.appendChild(div);
+    [...container.children].forEach(child => {
+      if (!activeIds.has(child.id)) child.remove();
     });
 
     if (processContainer) {
@@ -1082,32 +1093,20 @@ async function fetchJobs() {
 }
 
 async function pauseJob(id) {
-  try {
-    await fetch(`/api/pause/${id}`, { method: 'POST' });
-    fetchJobs(); 
-  } catch (err) {
-    console.error(err);
-  }
+  await fetch(`/api/pause/${id}`, { method: 'POST' });
+  fetchJobs();
 }
 
 async function resumeJob(id) {
-  try {
-    await fetch(`/api/resume/${id}`, { method: 'POST' });
-    fetchJobs();
-  } catch (err) {
-    console.error(err);
-  }
+  await fetch(`/api/resume/${id}`, { method: 'POST' });
+  fetchJobs();
 }
 
 async function stopJob(id) {
-  try {
-    await fetch(`/api/stop/${id}`, { method: 'POST' });
-    const el = document.getElementById(`job-${id}`);
-    if (el) el.remove();
-    fetchJobs();
-  } catch (err) {
-    console.error(err);
-  }
+  await fetch(`/api/stop/${id}`, { method: 'POST' });
+  const el = document.getElementById(`job-${id}`);
+  if (el) el.remove();
+  fetchJobs();
 }
 
 fetchJobs();
