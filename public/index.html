@@ -423,21 +423,25 @@ body.show-content {
   border:1px solid rgba(255,80,80,.3);
   color:#ff9a9a;
 }
- 
- /* JOB CARD – WALANG LALABAS */
+   
+ /* ===============================
+   JOB CARD – PREMIUM BOX
+================================ */
 #jobs .job {
   position: relative;
-  overflow: hidden;              /* 🔒 CLIP EVERYTHING */
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 6px;
-  margin: 4px 0;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.025);
-  font-size: 11px;
-  color: #e6eef1;
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 6px 0;
+  background: rgba(20, 20, 30, 0.8);    /* dark semi-transparent box */
+  border: 1px solid rgba(0, 255, 153, 0.2);  /* subtle neon border */
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  color: #e6eef1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25); /* soft shadow */
 }
 
 /* STATUS COLORS */
@@ -445,47 +449,31 @@ body.show-content {
 #jobs .paused  { --accent:#ff4d4d; }
 #jobs .stopped { --accent:#9aa4aa; }
 
-/* URL – NAKAPALOOB LANG, SWIPE SA LOOB */
+/* URL – SWIPEABLE, COMPACT */
 #jobs .job-url {
   display: block;
   max-width: 100%;
-  overflow-x: auto;              /* swipe HERE */
+  overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-
-  padding: 2px 5px;
-  border-radius: 5px;
-  background: rgba(255,255,255,0.04);
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);   /* subtle highlight */
   color: var(--accent);
   font-family: monospace;
-  font-size: 11px;
-
+  font-size: 12px;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   touch-action: pan-x;
-
-  scrollbar-width: none;         /* no visual overflow */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,255,153,0.4) transparent;
 }
 #jobs .job-url::-webkit-scrollbar {
-  display: none;
+  height: 4px;
 }
-
-/* FADE HINT (OPTIONAL PERO SAFE) */
-#jobs .job-url {
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 12%,
-    black 88%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 12%,
-    black 88%,
-    transparent 100%
-  );
+#jobs .job-url::-webkit-scrollbar-thumb {
+  background: rgba(0,255,153,0.4);
+  border-radius: 2px;
 }
 
 /* BOTTOM ROW */
@@ -496,32 +484,30 @@ body.show-content {
   gap: 6px;
 }
 
-/* STATUS LABEL */
+/* STATUS LABEL – more visible */
 #jobs .status {
-  font-size: 10px;
-  padding: 1px 5px;
-  border-radius: 4px;
+  font-size: 11px;
   font-weight: 600;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-}
-
-/* BUTTONS – AUTO COLOR */
-#jobs .job button {
   padding: 2px 6px;
-  font-size: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 20%, rgba(0,0,0,0.2));
   color: var(--accent);
-  transition: 0.15s ease;
 }
 
+/* BUTTONS – premium style */
+#jobs .job button {
+  padding: 3px 8px;
+  font-size: 11px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.15s;
+}
 #jobs .job button:hover {
-  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
 }
-
 #jobs .job button:active {
   transform: scale(0.95);
 }
@@ -529,17 +515,19 @@ body.show-content {
 /* MOBILE */
 @media (max-width:480px){
   #jobs .job {
-    padding: 5px;
+    padding: 8px;
   }
-
   #jobs .job-url {
+    font-size: 11px;
+  }
+  #jobs .job button {
+    padding: 2px 6px;
     font-size: 10px;
   }
-    } 
-    
+}
   </style>
 </head>
-<body>
+<body> 
 
   <div id="loadingScreen">
     <div class="fb-logo"><i class="fa-solid fa-share"></i></div>
