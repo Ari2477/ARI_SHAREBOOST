@@ -95,30 +95,29 @@ async function share(cookies, url, amount, interval) {
     if (!job || job.status !== 'running') return;
 
     try {
-      const response = await axios.post(
-        `https://graph.facebook.com/me/feed?link=https://m.facebook.com/${id}&published=0&access_token=${accessToken}`,
-        {},
-        { headers }
-      );
+        const response = await axios.post(
+            `https://graph.facebook.com/me/feed?link=https://m.facebook.com/${id}&published=0&access_token=${accessToken}`,
+            {},
+            { headers }
+        );
 
-      if (response.status === 200) {
-        currentJob.count++;
-        currentJob.sharedCount++;
-        total.set(req.params.id, currentJob);
-      }
+        if (response.status === 200) {
+            job.count++;
+            job.sharedCount++;
+            total.set(postId, job);
+        }
 
-      if (currentJob.sharedCount >= currentJob.target) {
-        currentJob.status = 'completed';
-        clearInterval(currentJob._timer);
-        total.delete(req.params.id);
-        return; 
-      }
+        if (job.sharedCount >= job.target) {
+            job.status = 'completed';   
+            clearInterval(job._timer);   
+            total.delete(postId);        
+        }
 
     } catch (error) {
-      clearInterval(job._timer);
-      total.delete(postId);
+        clearInterval(job._timer);
+        total.delete(postId);
     }
-  }
+}
 
   const timer = setInterval(sharePost, interval * 1000);
 
@@ -177,11 +176,11 @@ app.post('/api/resume/:id', (req, res) => {
         total.set(req.params.id, currentJob);
       }
 
-      if (currentJob.sharedCount >= target) {
-        currentJob.status = 'completed';  
-        clearInterval(currentJob._timer);
+      if (job.sharedCount >= job.target) {
+        job.status = 'completed';
+        clearInterval(job._timer);
         total.delete(req.params.id);
-      }
+     }
 
     } catch (err) {
       clearInterval(currentJob._timer);
