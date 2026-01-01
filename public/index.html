@@ -550,6 +550,19 @@ body.show-content {
     padding: 3px 6px;
     font-size: 11px;
   }
+  
+.job-buttons button {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  padding: 8px 12px;
+  margin-right: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.job-buttons button:hover {
+  background: rgba(255,255,255,0.2);
 }
   </style>
 </head>
@@ -1015,7 +1028,6 @@ async function fetchJobs() {
 
     const container = document.getElementById('jobs');
     const processContainer = document.getElementById('processContainer');
-
     if (!container) return;
 
     if (!jobs || jobs.length === 0) {
@@ -1054,15 +1066,28 @@ async function fetchJobs() {
       }
 
       let buttons = '';
+
       if (job.status === 'running') {
         buttons = `
-          <button onclick="pauseJob('${job.id}')">Pause</button>
-          <button onclick="stopJob('${job.id}')">Stop</button>
+          <div class="job-buttons">
+            <button onclick="pauseJob('${job.id}')" title="Pause">
+              <i class="fa-solid fa-pause"></i>
+            </button>
+            <button onclick="stopJob('${job.id}')" title="Stop">
+              <i class="fa-solid fa-stop"></i>
+            </button>
+          </div>
         `;
       } else if (job.status === 'paused') {
         buttons = `
-          <button onclick="resumeJob('${job.id}')">Resume</button>
-          <button onclick="stopJob('${job.id}')">Stop</button>
+          <div class="job-buttons">
+            <button onclick="resumeJob('${job.id}')" title="Resume">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <button onclick="stopJob('${job.id}')" title="Stop">
+              <i class="fa-solid fa-stop"></i>
+            </button>
+          </div>
         `;
       }
 
@@ -1072,8 +1097,7 @@ async function fetchJobs() {
 
         <strong>Count:</strong> ${job.count}/${job.target}<br>
 
-        <strong>Status:</strong>
-        <span>${job.status}</span><br>
+        <strong>Status:</strong> ${job.status}<br><br>
 
         ${buttons}
       `;
