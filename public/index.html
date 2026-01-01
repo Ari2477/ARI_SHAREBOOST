@@ -430,9 +430,8 @@ body.show-content {
 
 #jobs .job-url {
   display: inline-block;
-  max-width: 100%;           
-  max-width: clamp(150px, 50%, 400px);
-  overflow-x: hidden;           
+  max-width: 100%;
+  overflow-x: auto;           
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -450,7 +449,7 @@ body.show-content {
   letter-spacing: 0.5px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-    
+
 #jobs .job-url::-webkit-scrollbar {
   display: none;                      
 }
@@ -481,7 +480,7 @@ body.show-content {
 #jobs div.paused {
   border-color: #ff4d4d;
 }
-    
+
 #jobs div::before {
   content: '';
   position: absolute;
@@ -539,11 +538,13 @@ body.show-content {
   transform: scale(1.05);
 }
 
-@media (max-width:480px){
+@media (max-width: 600px) {
   #jobs .job-url {
-    max-width: 260px;
+    display: block;
+    max-width: 100%;          
+    overflow-x: hidden;      
     font-size: 12px;
-    padding: 5px 8px;
+    padding: 5px 6px;
   }
   #jobs button {
     padding: 3px 6px;
