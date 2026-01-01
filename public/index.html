@@ -1021,6 +1021,9 @@ renderGuide();
   </script>
 
 <script>
+const fetchInterval = 2000;
+let fetchTimeout;
+
 async function fetchJobs() {
   try {
     const res = await fetch('/total');
@@ -1030,81 +1033,58 @@ async function fetchJobs() {
     const processContainer = document.getElementById('processContainer');
     if (!container) return;
 
+    container.innerHTML = ''; 
     if (!jobs || jobs.length === 0) {
-      container.innerHTML = '';
       if (processContainer) processContainer.style.display = 'none';
+      scheduleNextFetch();
       return;
     }
 
     let hasActiveJob = false;
-    const activeIds = new Set();
 
     jobs.forEach(job => {
-      const elId = `job-${job.id}`;
-      let div = document.getElementById(elId);
-
-      if (
-        job.status === 'completed' ||
-        job.status === 'stopped' ||
-        job.count >= job.target
-      ) {
-        if (div) div.remove();
+      if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target) {
         return;
       }
 
       hasActiveJob = true;
-      activeIds.add(elId);
 
-      if (!div) {
-        div = document.createElement('div');
-        div.id = elId;
-        div.style.border = '1px solid rgba(255,255,255,0.08)';
-        div.style.padding = '10px';
-        div.style.margin = '6px 0';
-        div.style.borderRadius = '8px';
-        container.appendChild(div);
-      }
+      const div = document.createElement('div');
+      div.id = `job-${job.id}`;
+      div.style.border = '1px solid rgba(255,255,255,0.08)';
+      div.style.padding = '10px';
+      div.style.margin = '6px 0';
+      div.style.borderRadius = '8px';
 
       let buttons = '';
-
       if (job.status === 'running') {
         buttons = `
-          <div class="job-buttons">
-            <button onclick="pauseJob('${job.id}')" title="Pause">
-              <i class="fa-solid fa-pause"></i>
-            </button>
-            <button onclick="stopJob('${job.id}')" title="Stop">
-              <i class="fa-solid fa-stop"></i>
-            </button>
-          </div>
+          <button onclick="pauseJob('${job.id}')" title="Pause">
+            <i class="fa-solid fa-pause"></i>
+          </button>
+          <button onclick="stopJob('${job.id}')" title="Stop">
+            <i class="fa-solid fa-stop"></i>
+          </button>
         `;
       } else if (job.status === 'paused') {
         buttons = `
-          <div class="job-buttons">
-            <button onclick="resumeJob('${job.id}')" title="Resume">
-              <i class="fa-solid fa-play"></i>
-            </button>
-            <button onclick="stopJob('${job.id}')" title="Stop">
-              <i class="fa-solid fa-stop"></i>
-            </button>
-          </div>
+          <button onclick="resumeJob('${job.id}')" title="Resume">
+            <i class="fa-solid fa-play"></i>
+          </button>
+          <button onclick="stopJob('${job.id}')" title="Stop">
+            <i class="fa-solid fa-stop"></i>
+          </button>
         `;
       }
 
       div.innerHTML = `
-        <strong>URL:</strong>
-        <span class="job-url" title="${job.url}">${job.url}</span><br>
-
+        <strong>URL:</strong> <span title="${job.url}">${job.url}</span><br>
         <strong>Count:</strong> ${job.count}/${job.target}<br>
-
         <strong>Status:</strong> ${job.status}<br><br>
-
         ${buttons}
       `;
-    });
 
-    [...container.children].forEach(child => {
-      if (!activeIds.has(child.id)) child.remove();
+      container.appendChild(div);
     });
 
     if (processContainer) {
@@ -1114,27 +1094,38 @@ async function fetchJobs() {
   } catch (err) {
     console.error('Error fetching jobs:', err);
   }
+
+  scheduleNextFetch(); 
+}
+
+function scheduleNextFetch() {
+  fetchTimeout = setTimeout(fetchJobs, fetchInterval);
 }
 
 async function pauseJob(id) {
-  await fetch(`/api/pause/${id}`, { method: 'POST' });
-  fetchJobs();
+  try {
+    await fetch(`/api/pause/${id}`, { method: 'POST' });
+    fetchJobs();
+  } catch (err) { console.error(err); }
 }
 
 async function resumeJob(id) {
-  await fetch(`/api/resume/${id}`, { method: 'POST' });
-  fetchJobs();
+  try {
+    await fetch(`/api/resume/${id}`, { method: 'POST' });
+    fetchJobs();
+  } catch (err) { console.error(err); }
 }
 
 async function stopJob(id) {
-  await fetch(`/api/stop/${id}`, { method: 'POST' });
-  const el = document.getElementById(`job-${id}`);
-  if (el) el.remove();
-  fetchJobs();
+  try {
+    await fetch(`/api/stop/${id}`, { method: 'POST' });
+    const el = document.getElementById(`job-${id}`);
+    if (el) el.remove();
+    fetchJobs();
+  } catch (err) { console.error(err); }
 }
 
 fetchJobs();
-setInterval(fetchJobs, 2000);
 </script>
 </body>
 </html>
