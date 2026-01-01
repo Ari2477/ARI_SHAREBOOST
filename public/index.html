@@ -1016,7 +1016,7 @@ async function fetchJobs() {
     const container = document.getElementById('jobs');
     const processContainer = document.getElementById('processContainer');
 
-    container.innerHTML = '';
+    container.innerHTML = ''; 
 
     if (!jobs || jobs.length === 0) {
       if (processContainer) processContainer.style.display = 'none';
