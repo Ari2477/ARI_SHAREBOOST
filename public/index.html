@@ -1041,50 +1041,48 @@ async function fetchJobs() {
       div.style.margin = '6px 0';
       div.style.borderRadius = '8px';
 
-let div = document.getElementById(elId);
-if (!div) {
-  div = document.createElement('div');
-  div.id = elId;
-  div.classList.add('job');
-
-  div.innerHTML = `
-    <div class="job-url-container">
-      <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
-    </div>
-    <div class="job-count"></div>
-    <div class="job-status"></div>
-    <div class="job-buttons"></div>
-  `;
-  container.appendChild(div);
-}
-
-div.querySelector('.job-count').textContent = `Count: ${job.count}/${job.target}`;
-div.querySelector('.job-status').textContent = `Status: ${job.status}`;
-
-const buttonsDiv = div.querySelector('.job-buttons');
-buttonsDiv.innerHTML = ''; 
-
+let buttons = '';
 if (job.status === 'running') {
-  const pauseBtn = document.createElement('button');
-  pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-  pauseBtn.onclick = () => pauseJob(job.id);
-  buttonsDiv.appendChild(pauseBtn);
-
-  const stopBtn = document.createElement('button');
-  stopBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
-  stopBtn.onclick = () => stopJob(job.id);
-  buttonsDiv.appendChild(stopBtn);
+  buttons = `
+    <div class="job-buttons">
+      <button onclick="pauseJob('${job.id}')" title="Pause">
+        <i class="fa-solid fa-pause"></i>
+      </button>
+      <button onclick="stopJob('${job.id}')" title="Stop">
+        <i class="fa-solid fa-stop"></i>
+      </button>
+    </div>
+  `;
 } else if (job.status === 'paused') {
-  const resumeBtn = document.createElement('button');
-  resumeBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-  resumeBtn.onclick = () => resumeJob(job.id);
-  buttonsDiv.appendChild(resumeBtn);
-
-  const stopBtn = document.createElement('button');
-  stopBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
-  stopBtn.onclick = () => stopJob(job.id);
-  buttonsDiv.appendChild(stopBtn);
+  buttons = `
+    <div class="job-buttons">
+      <button onclick="resumeJob('${job.id}')" title="Resume">
+        <i class="fa-solid fa-play"></i>
+      </button>
+      <button onclick="stopJob('${job.id}')" title="Stop">
+        <i class="fa-solid fa-stop"></i>
+      </button>
+    </div>
+  `;
 }
+
+div.innerHTML = `
+  <div class="job-url-container">
+    <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
+  </div>
+
+  <div class="job-count">
+    <strong>Count:</strong> <span>${job.count}/${job.target}</span>
+  </div>
+
+  <div class="job-status">
+    <strong>Status:</strong> <span>${job.status}</span>
+  </div>
+
+  <div class="job-buttons">
+    ${buttons}
+  </div>
+`;
 
       container.appendChild(div);
     });
