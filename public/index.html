@@ -424,7 +424,11 @@ body.show-content {
   color:#ff9a9a;
 }
     
- #jobs .job-url {
+ :root {
+  --accent: #00ff99;
+}
+
+#jobs .job-url {
   display: inline-block;
   max-width: 180px;   
   overflow-x: auto;   
@@ -436,43 +440,109 @@ body.show-content {
   scroll-behavior: smooth;          
   -ms-overflow-style: none;         
   scrollbar-width: none;             
+  padding: 5px 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+  color: var(--accent);
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #jobs .job-url::-webkit-scrollbar {
   display: none;                      
 }
-    
+
+#jobs .job-url:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(0,255,153,0.5);
+}
 
 #jobs div {
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.02);
+  position: relative;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 12px;
+  margin: 8px 0;
+  border: 2px solid rgba(255,255,255,0.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   font-size: 13px;
   color: #e6eef1;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+#jobs div.running {
+  border-color: #00ff66;
+}
+#jobs div.paused {
+  border-color: #ff4d4d;
+}
+    
+#jobs div::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #00ff99, #00ffff, #ff00ff, #ff9900);
+  background-size: 400% 400%;
+  filter: blur(30px);
+  opacity: 0.15;
+  z-index: 0;
+  animation: gradientShift 6s ease infinite;
+}
+
+#jobs div > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#jobs div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,255,153,0.35);
 }
 
 #jobs button {
-  margin-top: 4px;
-  margin-right: 4px;
-  padding: 4px 8px;
+  margin-top: 6px;
+  margin-right: 6px;
+  padding: 5px 10px;
   font-size: 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(0,255,153,0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,255,153,0.08);
   color: var(--accent);
   cursor: pointer;
-  transition: 0.15s;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 2px rgba(0,255,153,0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 #jobs button:hover {
-  background: rgba(0,255,153,0.12);
+  background: rgba(0,255,153,0.18);
+  box-shadow: 0 0 14px rgba(0,255,153,0.5);
+  transform: scale(1.05);
 }
 
 @media (max-width:480px){
   #jobs .job-url {
     max-width: 260px;
+    font-size: 12px;
+    padding: 5px 8px;
   }
   #jobs button {
     padding: 3px 6px;
