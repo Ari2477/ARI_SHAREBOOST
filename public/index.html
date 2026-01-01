@@ -430,8 +430,9 @@ body.show-content {
 
 #jobs .job-url {
   display: inline-block;
-  max-width: 180px;   
-  overflow-x: auto;
+  max-width: 100%;           
+  max-width: clamp(150px, 50%, 400px);
+  overflow-x: auto;           
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -449,7 +450,7 @@ body.show-content {
   letter-spacing: 0.5px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+    
 #jobs .job-url::-webkit-scrollbar {
   display: none;                      
 }
