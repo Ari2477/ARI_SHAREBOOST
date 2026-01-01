@@ -424,10 +424,15 @@ body.show-content {
   color:#ff9a9a;
 }
    
+:root {
+  --accent: #00ff99;
+}
+
 #jobs .job-url {
   display: inline-block;
-  max-width: 100%;
-  overflow-x: auto;
+  max-width: 100%;  
+  min-width: 180px;
+  overflow-x: auto;          
   overflow-y: hidden;
   white-space: nowrap;
   padding: 6px 10px;
@@ -439,12 +444,16 @@ body.show-content {
   font-family: 'Fira Code', monospace;
   font-size: 13px;
   letter-spacing: 0.5px;
-  -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 255, 153, 0.5) transparent;
+  box-sizing: border-box;    
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  scrollbar-width: none;     
+}
+#jobs .job-url::-webkit-scrollbar {
+  display: none;             
 }
 
 #jobs .job-url:hover {
@@ -452,33 +461,60 @@ body.show-content {
   box-shadow: 0 4px 15px rgba(0, 255, 153, 0.2);
 }
 
-#jobs .job-url::-webkit-scrollbar {
-  height: 5px;
-}
-#jobs .job-url::-webkit-scrollbar-thumb {
-  background: rgba(0, 255, 153, 0.6);
-  border-radius: 3px;
-}
-
-#jobs div {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 14px 12px;
-  margin: 6px 0;
+#jobs div.job-card {
+  position: relative;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font-size: 14px;
   color: #e6eef1;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 14px 12px;
+  margin: 10px 0;
+  border: 2px solid rgba(255,255,255,0.12); 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-#jobs div:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 255, 153, 0.25);
+#jobs div.job-card.running {
+  border-color: #00ff66;
 }
-    
+#jobs div.job-card.paused {
+  border-color: #ff4d4d;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#jobs div.job-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #00ff99, #00ffff, #ff00ff, #ff9900);
+  background-size: 400% 400%;
+  filter: blur(30px);
+  opacity: 0.5;
+  z-index: 0;
+  animation: gradientShift 6s ease infinite;
+}
+
+#jobs div.job-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+#jobs div.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 255, 153, 0.4);
+}
+
 #jobs button {
   margin-top: 6px;
   margin-right: 5px;
@@ -495,14 +531,16 @@ body.show-content {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 #jobs button:hover {
   background: rgba(0, 255, 153, 0.18);
-  box-shadow: 0 0 12px rgba(0, 255, 153, 0.4);
+  box-shadow: 0 0 14px rgba(0, 255, 153, 0.5);
   transform: scale(1.05);
 }
-    
+
 @media (max-width: 480px) {
   #jobs .job-url {
     max-width: 140px;
@@ -514,7 +552,6 @@ body.show-content {
     font-size: 12px;
   }
 }
-
   </style>
 </head>
 <body> 
