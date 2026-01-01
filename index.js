@@ -11,14 +11,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 const total = new Map();
 
 app.get('/total', (req, res) => {
-  const data = Array.from(total.values()).map((link, index) => ({
-    session: index + 1,
-    url: link.url,
-    count: link.count,
-    id: link.id,
-    target: link.target,
-    status: link.status || 'running'
-  }));
+  const data = Array.from(total.values())
+    .filter(link => link.status !== 'completed') 
+    .map((link, index) => ({
+        session: index + 1,
+        url: link.url,
+        count: link.count,
+        id: link.id,
+        target: link.target,
+        status: link.status || 'running'
+    }));
   res.json(JSON.parse(JSON.stringify(data || [], null, 2)));
 });
 
@@ -107,6 +109,7 @@ async function share(cookies, url, amount, interval) {
       }
 
       if (sharedCount >= amount) {
+        job.status = 'completed';   
         clearInterval(job._timer);
         total.delete(postId);
       }
@@ -175,6 +178,7 @@ app.post('/api/resume/:id', (req, res) => {
       }
 
       if (currentJob.sharedCount >= target) {
+        currentJob.status = 'completed';  
         clearInterval(currentJob._timer);
         total.delete(req.params.id);
       }
