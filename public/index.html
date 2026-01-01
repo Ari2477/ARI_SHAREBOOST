@@ -1068,20 +1068,22 @@ if (job.status === 'running') {
 }
 
 div.innerHTML = `
-  <div class="job-url-container">
-    <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
-  </div>
+  <div class="job-box ${job.status}">
+    <div class="job-url-container">
+      <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
+    </div>
 
-  <div class="job-count">
-    <strong>Count:</strong> <span>${job.count}/${job.target}</span>
-  </div>
+    <div class="job-count">
+      <strong>Count:</strong> <span>${job.count}/${job.target}</span>
+    </div>
 
-  <div class="job-status">
-    <strong>Status:</strong> <span>${job.status}</span>
-  </div>
+    <div class="job-status">
+      <strong>Status:</strong> <span>${job.status}</span>
+    </div>
 
-  <div class="job-buttons">
-    ${buttons}
+    <div class="job-buttons">
+      ${buttons}
+    </div>
   </div>
 `;
 
