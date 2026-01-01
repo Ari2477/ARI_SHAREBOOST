@@ -429,9 +429,9 @@ body.show-content {
 }
 
 .job-url-container {
-  display: inline-block;
+  display: block;                
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: auto;              
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -440,7 +440,7 @@ body.show-content {
   scroll-behavior: smooth;          
   -ms-overflow-style: none;         
   scrollbar-width: none;             
-  padding: 5px 8px;
+  padding: 6px 10px;             
   border-radius: 12px;
   background: rgba(255,255,255,0.07);
   color: var(--accent);
@@ -451,7 +451,7 @@ body.show-content {
 }
 
 .job-url-container::-webkit-scrollbar {
-  display: none;
+  display: none;                      
 }
 
 .job-url-container:hover {
@@ -466,8 +466,8 @@ body.show-content {
   background: rgba(255,255,255,0.03);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 12px;
-  margin: 8px 0;
+  padding: 14px 16px;
+  margin: 10px 0;
   border: 2px solid rgba(255,255,255,0.12);
   box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   font-size: 13px;
@@ -480,6 +480,9 @@ body.show-content {
 }
 #jobs .job-box.paused {
   border-color: #ff4d4d;
+}
+#jobs .job-box.completed {
+  border-color: #3399ff;
 }
 
 #jobs .job-box::before {
@@ -512,12 +515,12 @@ body.show-content {
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0,255,153,0.35);
 }
- 
+
 .job-buttons button {
   margin-top: 6px;
   margin-right: 6px;
-  padding: 5px 10px;
-  font-size: 12px;
+  padding: 6px 10px;
+  font-size: 13px;
   border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.12);
   background: rgba(0,255,153,0.08);
@@ -539,13 +542,11 @@ body.show-content {
 
 @media (max-width: 600px) {
   .job-url-container {
-    display: block;
-    max-width: 100%;       
     font-size: 12px;
     padding: 5px 6px;
   }
   .job-buttons button {
-    padding: 3px 6px;
+    padding: 4px 8px;
     font-size: 11px;
   }
 }
