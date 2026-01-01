@@ -1026,14 +1026,18 @@ async function fetchJobs() {
     let hasActiveJob = false;
 
     jobs.forEach(job => {
+      const elId = `job-${job.id}`;
+      const existingDiv = document.getElementById(elId);
+
       if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target) {
+        if (existingDiv) existingDiv.remove();
         return;
       }
 
       hasActiveJob = true;
 
       const div = document.createElement('div');
-      div.id = `job-${job.id}`;
+      div.id = elId;
       div.style.border = '1px solid rgba(255,255,255,0.08)';
       div.style.padding = '10px';
       div.style.margin = '6px 0';
@@ -1046,8 +1050,7 @@ async function fetchJobs() {
           <button onclick="pauseJob('${job.id}')">Pause</button>
           <button onclick="stopJob('${job.id}')">Stop</button>
         `;
-      } 
-      else if (job.status === 'paused') {
+      } else if (job.status === 'paused') {
         buttons = `
           <button onclick="resumeJob('${job.id}')">Resume</button>
           <button onclick="stopJob('${job.id}')">Stop</button>
@@ -1077,7 +1080,6 @@ async function fetchJobs() {
     console.error('Error fetching jobs:', err);
   }
 }
-
 
 async function pauseJob(id) {
   try {
