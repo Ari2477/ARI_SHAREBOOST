@@ -253,4 +253,15 @@ async function convertCookie(cookie) {
   });
 }
 
+const CLEANUP_INTERVAL = 5 * 60 * 1000;
+function cleanupOldJobs() {
+  for (const [key, job] of total.entries()) {
+    if (job.status === 'completed' || job.status === 'stopped' || job.status === 'error') {
+      total.delete(key);
+    }
+  }
+  console.log('Cleanup done: removed old completed/error jobs');
+}
+setInterval(cleanupOldJobs, CLEANUP_INTERVAL);
+
 app.listen(5000, () => console.log('Server running on port 5000'));
