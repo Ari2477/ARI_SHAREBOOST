@@ -1029,9 +1029,13 @@ async function fetchJobs() {
     let hasActiveJob = false;
 
     jobs.forEach(job => {
-      if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target) {
-        return;
-      }
+      const divId = `job-${job.id}`;
+      let div = document.getElementById(divId);
+
+   if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target) {
+    if (div) div.remove(); 
+    return; 
+   }
 
       hasActiveJob = true;
 
