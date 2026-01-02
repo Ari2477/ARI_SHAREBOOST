@@ -12,7 +12,7 @@ const total = new Map();
 
 app.get('/total', (req, res) => {
   const data = Array.from(total.values())
-    .filter(link => link.status !== 'completed' && link.status !== 'stopped' && link.status !== 'error')
+    .filter(link => link.status !== 'completed')
     .map((link, index) => ({
         session: index + 1,
         url: link.url,
