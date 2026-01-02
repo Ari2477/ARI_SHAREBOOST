@@ -12,7 +12,7 @@ const total = new Map();
 
 app.get('/total', (req, res) => {
   const data = Array.from(total.values())
-    .filter(link => link.status !== 'completed')
+    .filter(link => link.status !== 'completed') 
     .map((link, index) => ({
         session: index + 1,
         url: link.url,
@@ -108,17 +108,17 @@ async function share(cookies, url, amount, interval) {
         }
 
         if (job.sharedCount >= job.target) {
-            job.status = 'completed';
-            clearInterval(job._timer);
-            total.set(postId, job);
-        }
+          job.status = 'completed';   
+          clearInterval(job._timer);   
+          total.set(postId, job);      
+       }
 
-        } catch (error) {  
-          clearInterval(job._timer);  
-          job.status = 'error';  
-          total.set(postId, job);  
-     }
-  }
+    } catch (error) {
+       clearInterval(job._timer);
+       job.status = 'error';
+       total.set(postId, job);
+    }
+}
 
   const timer = setInterval(sharePost, interval * 1000);
 
@@ -172,16 +172,16 @@ app.post('/api/resume/:id', (req, res) => {
         total.set(req.params.id, currentJob);
       }
 
-     if (currentJob.sharedCount >= currentJob.target) {
-       currentJob.status = 'completed';
-       clearInterval(currentJob._timer);
-       total.set(req.params.id, currentJob);
-     }
+      if (currentJob.sharedCount >= currentJob.target) {
+        currentJob.status = 'completed';
+        clearInterval(currentJob._timer);
+        total.set(req.params.id, currentJob); 
+       }
 
-     } catch (err) {  
-       clearInterval(currentJob._timer);  
-       currentJob.status = 'error';  
-       total.set(req.params.id, currentJob);  
+    } catch (err) {
+      clearInterval(currentJob._timer);
+      currentJob.status = 'error';
+      total.set(req.params.id, currentJob);
      }
   }
 
