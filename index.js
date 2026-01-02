@@ -108,15 +108,15 @@ async function share(cookies, url, amount, interval) {
         }
 
         if (job.sharedCount >= job.target) {
-          job.status = 'completed';   
-          clearInterval(job._timer);   
-          total.set(postId, job);      
+        clearInterval(job._timer);
+        total.delete(postId);
+        console.log(`Job ${postId} completed and removed from memory.`);
        }
 
     } catch (error) {
-       clearInterval(job._timer);
-       job.status = 'error';
-       total.set(postId, job);
+      clearInterval(job._timer);
+      total.delete(postId);
+      console.error(`Job ${postId} encountered an error and removed:`, error);
     }
 }
 
@@ -173,15 +173,13 @@ app.post('/api/resume/:id', (req, res) => {
       }
 
       if (currentJob.sharedCount >= currentJob.target) {
-        currentJob.status = 'completed';
         clearInterval(currentJob._timer);
-        total.set(req.params.id, currentJob); 
-       }
+        total.delete(req.params.id);      
+      }
 
-    } catch (err) {
-      clearInterval(currentJob._timer);
-      currentJob.status = 'error';
-      total.set(req.params.id, currentJob);
+     } catch (err) {
+       clearInterval(currentJob._timer);
+       total.delete(req.params.id);          
      }
   }
 
