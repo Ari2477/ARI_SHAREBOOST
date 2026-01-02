@@ -1029,13 +1029,11 @@ async function fetchJobs() {
     let hasActiveJob = false;
 
     jobs.forEach(job => {
-      const divId = `job-${job.id}`;
-      let div = document.getElementById(divId);
-
-   if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target) {
-    if (div) div.remove(); 
-    return; 
-   }
+      if (job.status === 'completed' || job.status === 'stopped' || job.count >= job.target || job.status === 'error') {
+        const divToRemove = document.getElementById(`job-${job.id}`);
+        if (divToRemove) divToRemove.remove();
+        return; 
+      }
 
       hasActiveJob = true;
 
@@ -1046,50 +1044,50 @@ async function fetchJobs() {
       div.style.margin = '6px 0';
       div.style.borderRadius = '8px';
 
-let buttons = '';
-if (job.status === 'running') {
-  buttons = `
-    <div class="job-buttons">
-      <button onclick="pauseJob('${job.id}')" title="Pause">
-        <i class="fa-solid fa-pause"></i>
-      </button>
-      <button onclick="stopJob('${job.id}')" title="Stop">
-        <i class="fa-solid fa-stop"></i>
-      </button>
-    </div>
-  `;
-} else if (job.status === 'paused') {
-  buttons = `
-    <div class="job-buttons">
-      <button onclick="resumeJob('${job.id}')" title="Resume">
-        <i class="fa-solid fa-play"></i>
-      </button>
-      <button onclick="stopJob('${job.id}')" title="Stop">
-        <i class="fa-solid fa-stop"></i>
-      </button>
-    </div>
-  `;
-}
+      let buttons = '';
+      if (job.status === 'running') {
+        buttons = `
+          <div class="job-buttons">
+            <button onclick="pauseJob('${job.id}')" title="Pause">
+              <i class="fa-solid fa-pause"></i>
+            </button>
+            <button onclick="stopJob('${job.id}')" title="Stop">
+              <i class="fa-solid fa-stop"></i>
+            </button>
+          </div>
+        `;
+      } else if (job.status === 'paused') {
+        buttons = `
+          <div class="job-buttons">
+            <button onclick="resumeJob('${job.id}')" title="Resume">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <button onclick="stopJob('${job.id}')" title="Stop">
+              <i class="fa-solid fa-stop"></i>
+            </button>
+          </div>
+        `;
+      }
 
-div.innerHTML = `
-  <div class="job-box ${job.status}">
-    <div class="job-url-container">
-      <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
-    </div>
+      div.innerHTML = `
+        <div class="job-box ${job.status}">
+          <div class="job-url-container">
+            <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
+          </div>
 
-    <div class="job-count">
-      <strong>Count:</strong> <span>${job.count}/${job.target}</span>
-    </div>
+          <div class="job-count">
+            <strong>Count:</strong> <span>${job.count}/${job.target}</span>
+          </div>
 
-    <div class="job-status">
-      <strong>Status:</strong> <span>${job.status}</span>
-    </div>
+          <div class="job-status">
+            <strong>Status:</strong> <span>${job.status}</span>
+          </div>
 
-    <div class="job-buttons">
-      ${buttons}
-    </div>
-  </div>
-`;
+          <div class="job-buttons">
+            ${buttons}
+          </div>
+        </div>
+      `;
 
       container.appendChild(div);
     });
@@ -1100,6 +1098,8 @@ div.innerHTML = `
 
   } catch (err) {
     console.error('Error fetching jobs:', err);
+    const container = document.getElementById('jobs');
+    if (container) container.innerHTML = '';
   }
 
   scheduleNextFetch(); 
