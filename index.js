@@ -1,139 +1,256 @@
-const fetchInterval = 2000;
-let fetchTimeout;
+const express = require('express');
+const axios = require('axios');
+const path = require('path');
+const bodyParser = require('body-parser');
+const app = express();
 
-async function fetchJobs() {
-  try {
-    const res = await fetch('/total');
-    const jobs = await res.json();
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-    const container = document.getElementById('jobs');
-    const processContainer = document.getElementById('processContainer');
-    if (!container) return;
+const total = new Map();
 
-    container.innerHTML = '';
+app.get('/total', (req, res) => {
+  const data = Array.from(total.values())
+    .filter(link => link.status !== 'completed' && link.status !== 'stopped' && link.status !== 'error')
+    .map((link, index) => ({
+        session: index + 1,
+        url: link.url,
+        count: link.count,
+        id: link.id,
+        target: link.target,
+        status: link.status || 'running'
+    }));
+  res.json(JSON.parse(JSON.stringify(data || [], null, 2)));
+});
 
-    if (!jobs || jobs.length === 0) {
-      if (processContainer) processContainer.style.display = 'none';
-      scheduleNextFetch();
-      return;
-    }
+app.get('/', (res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-    let hasActiveJob = false;
+app.post('/api/submit', async (req, res) => {
+  const { cookie, url, amount, interval } = req.body;
 
-    jobs.forEach(job => {
-      if (
-        job.status === 'completed' ||
-        job.status === 'stopped' ||
-        job.status === 'error' ||
-        job.count >= job.target
-      ) {
-        const existingEl = document.getElementById(`job-${job.id}`);
-        if (existingEl) existingEl.remove(); 
-        return;
-      }
-
-      hasActiveJob = true;
-
-      const div = document.createElement('div');
-      div.id = `job-${job.id}`;
-      div.style.border = '1px solid rgba(255,255,255,0.08)';
-      div.style.padding = '10px';
-      div.style.margin = '6px 0';
-      div.style.borderRadius = '8px';
-
-      let buttons = '';
-      if (job.status === 'running') {
-        buttons = `
-          <div class="job-buttons">
-            <button onclick="pauseJob('${job.id}')" title="Pause">
-              <i class="fa-solid fa-pause"></i>
-            </button>
-            <button onclick="stopJob('${job.id}')" title="Stop">
-              <i class="fa-solid fa-stop"></i>
-            </button>
-          </div>
-        `;
-      } else if (job.status === 'paused') {
-        buttons = `
-          <div class="job-buttons">
-            <button onclick="resumeJob('${job.id}')" title="Resume">
-              <i class="fa-solid fa-play"></i>
-            </button>
-            <button onclick="stopJob('${job.id}')" title="Stop">
-              <i class="fa-solid fa-stop"></i>
-            </button>
-          </div>
-        `;
-      }
-
-      div.innerHTML = `
-        <div class="job-box ${job.status}">
-          <div class="job-url-container">
-            <strong>URL:</strong> <span class="job-url" title="${job.url}">${job.url}</span>
-          </div>
-          <div class="job-count">
-            <strong>Count:</strong> <span>${job.count}/${job.target}</span>
-          </div>
-          <div class="job-status">
-            <strong>Status:</strong> <span>${job.status}</span>
-          </div>
-          ${buttons}
-        </div>
-      `;
-
-      container.appendChild(div);
+  if (!cookie || !url || !amount || !interval)
+    return res.status(400).json({
+      error: 'Missing state, url, amount, or interval'
     });
 
-    if (processContainer) {
-      processContainer.style.display = hasActiveJob ? 'block' : 'none';
+  try {
+    const cookies = await convertCookie(cookie);
+    if (!cookies) {
+      return res.status(400).json({
+        status: 500,
+        error: 'Invalid cookies'
+      });
     }
 
+    await share(cookies, url, amount, interval);
+    res.status(200).json({ status: 200 });
+
   } catch (err) {
-    console.error('Error fetching jobs:', err);
-    const processContainer = document.getElementById('processContainer');
-    if (processContainer) processContainer.style.display = 'none';
+    return res.status(500).json({
+      status: 500,
+      error: err.message || err
+    });
+  }
+});
+
+async function share(cookies, url, amount, interval) {
+  const id = await getPostID(url);
+  const accessToken = await getAccessToken(cookies);
+
+  if (!id) {
+    throw new Error("Unable to get link id: invalid URL, it's either a private post or visible to friends only");
   }
 
-  scheduleNextFetch();
+  const postId = total.has(id) ? id + 1 : id;
+
+  total.set(postId, {
+    url,
+    id,
+    count: 0,
+    target: amount,
+    status: 'running',
+    _timer: null,
+    cookies,       
+    accessToken,   
+    interval,      
+    sharedCount: 0
+  });
+
+  const headers = {
+    'accept': '*/*',
+    'accept-encoding': 'gzip, deflate',
+    'connection': 'keep-alive',
+    'content-length': '0',
+    'cookie': cookies,
+    'host': 'graph.facebook.com'
+  };
+
+  let sharedCount = 0;
+
+  async function sharePost() {
+    const job = total.get(postId);
+    if (!job || job.status !== 'running') return;
+
+    try {
+        const response = await axios.post(
+            `https://graph.facebook.com/me/feed?link=https://m.facebook.com/${id}&published=0&access_token=${accessToken}`,
+            {},
+            { headers }
+        );
+
+        if (response.status === 200) {
+            job.count++;
+            job.sharedCount++;
+            total.set(postId, job);
+        }
+
+        if (job.sharedCount >= job.target) {
+          job.status = 'completed';   
+          clearInterval(job._timer);   
+          total.set(postId, job);      
+       }
+
+    } catch (error) {
+       clearInterval(job._timer);
+       job.status = 'error';
+       total.set(postId, job);
+    }
 }
 
-function scheduleNextFetch() {
-  fetchTimeout = setTimeout(fetchJobs, fetchInterval);
+  const timer = setInterval(sharePost, interval * 1000);
+
+  const job = total.get(postId);
+  job._timer = timer;
+  total.set(postId, job);
 }
 
-async function pauseJob(id) {
+app.post('/api/pause/:id', (req, res) => {
+  const job = total.get(req.params.id);
+  if (!job) return res.status(404).json({ error: 'Not found' });
+
+  clearInterval(job._timer);
+  job.status = 'paused';
+  total.set(req.params.id, job);
+
+  res.json({ success: true });
+});
+
+app.post('/api/resume/:id', (req, res) => {
+  const job = total.get(req.params.id);
+  if (!job) return res.status(404).json({ error: 'Not found' });
+  if (job.status !== 'paused') return res.json({ success: false });
+
+  job.status = 'running';
+
+  const { cookies, accessToken, interval, target, sharedCount } = job;
+  const id = job.id;
+
+  async function sharePost() {
+    const currentJob = total.get(req.params.id);
+    if (!currentJob || currentJob.status !== 'running') return;
+
+    try {
+      const response = await axios.post(
+        `https://graph.facebook.com/me/feed?link=https://m.facebook.com/${id}&published=0&access_token=${accessToken}`,
+        {},
+        { headers: {
+          'accept': '*/*',
+          'accept-encoding': 'gzip, deflate',
+          'connection': 'keep-alive',
+          'content-length': '0',
+          'cookie': cookies,
+          'host': 'graph.facebook.com'
+        }}
+      );
+
+      if (response.status === 200) {
+        currentJob.count++;
+        currentJob.sharedCount++;
+        total.set(req.params.id, currentJob);
+      }
+
+      if (currentJob.sharedCount >= currentJob.target) {
+        currentJob.status = 'completed';
+        clearInterval(currentJob._timer);
+        total.set(req.params.id, currentJob); 
+       }
+
+    } catch (err) {
+      clearInterval(currentJob._timer);
+      currentJob.status = 'error';
+      total.set(req.params.id, currentJob);
+     }
+  }
+
+  job._timer = setInterval(sharePost, interval * 1000);
+  total.set(req.params.id, job);
+
+  res.json({ success: true });
+});
+
+app.post('/api/stop/:id', (req, res) => {
+  const job = total.get(req.params.id);
+  if (!job) return res.status(404).json({ error: 'Not found' });
+
+  clearInterval(job._timer);
+  total.delete(req.params.id);
+
+  res.json({ success: true });
+});
+
+async function getPostID(url) {
   try {
-    await fetch(`/api/pause/${id}`, { method: 'POST' });
-    fetchJobs();
-  } catch (err) {
-    console.error(err);
-    const el = document.getElementById(`job-${id}`);
-    if (el) el.remove(); 
+    const response = await axios.post(
+      'https://id.traodoisub.com/api.php',
+      `link=${encodeURIComponent(url)}`,
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+    );
+    return response.data.id;
+  } catch {
+    return;
   }
 }
 
-async function resumeJob(id) {
+async function getAccessToken(cookie) {
   try {
-    await fetch(`/api/resume/${id}`, { method: 'POST' });
-    fetchJobs();
-  } catch (err) {
-    console.error(err);
-    const el = document.getElementById(`job-${id}`);
-    if (el) el.remove(); 
+    const headers = {
+      'authority': 'business.facebook.com',
+      'accept': 'text/html',
+      'cookie': cookie,
+      'referer': 'https://www.facebook.com/'
+    };
+
+    const response = await axios.get(
+      'https://business.facebook.com/content_management',
+      { headers }
+    );
+
+    const token = response.data.match(/"accessToken":\s*"([^"]+)"/);
+    if (token && token[1]) return token[1];
+
+  } catch {
+    return;
   }
 }
 
-async function stopJob(id) {
-  try {
-    await fetch(`/api/stop/${id}`, { method: 'POST' });
-    const el = document.getElementById(`job-${id}`);
-    if (el) el.remove();
-    fetchJobs();
-  } catch (err) {
-    console.error(err);
-    const el = document.getElementById(`job-${id}`);
-    if (el) el.remove();
-  }
+async function convertCookie(cookie) {
+  return new Promise((resolve, reject) => {
+    try {
+      const cookies = JSON.parse(cookie);
+      const sbCookie = cookies.find(c => c.key === "sb");
+      if (!sbCookie) reject("Invalid appstate");
+
+      const data = `sb=${sbCookie.value}; ` +
+        cookies.slice(1).map(c => `${c.key}=${c.value}`).join('; ');
+
+      resolve(data);
+    } catch {
+      reject("Error processing appstate");
+    }
+  });
 }
 
-fetchJobs();
+app.listen(5000, () => console.log('Server running on port 5000'));
