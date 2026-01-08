@@ -9,6 +9,22 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const total = new Map();
+const history = [];
+
+function addHistory(job) {
+  history.push({
+    id: job.id,
+    url: job.url,
+    target: job.target,
+    count: job.count,
+    status: job.status,
+    time: new Date().toLocaleString()
+  });
+}
+
+app.get('/history', (req, res) => {
+  res.json(history);
+});
 
 app.get('/total', (req, res) => {
   const data = Array.from(total.values())
