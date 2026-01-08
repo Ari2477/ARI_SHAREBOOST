@@ -550,76 +550,6 @@ body.show-content {
     font-size: 11px;
   }
 }
-
-.history-toggle{
-  position: fixed;
-  right: 0;                  
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 64px;
-  border-radius: 16px 0 0 16px;
-  background: rgba(0,255,153,0.18);
-  border-left: 1px solid rgba(0,255,153,0.4);
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 99999;
-  user-select: none;
-}
-
-.history-drawer{
-  position: fixed;
-  top: 0;
-  right: -360px;             
-  width: 360px;
-  height: 100vh;
-  background: linear-gradient(180deg,#0c141a,#0b1116);
-  border-left: 1px solid rgba(255,255,255,0.08);
-  padding: 90px 16px 20px;
-  z-index: 99998;
-  transition: right 0.3s ease;
-  overflow-y: auto;
-  pointer-events: auto;      
-}
-
-.history-drawer.open{
-  right: 0;                 
-}
-
-@media (max-width:480px){
-  .history-drawer{
-    width: 95%;
-    right: -100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .history-drawer,
-  .history-toggle {
-    touch-action: none;         
-    -webkit-overflow-scrolling: auto;
-  }
-
-  html, body {
-    overscroll-behavior-x: none;
-    touch-action: pan-y;          
-  }
-}
-
-@media (min-width: 769px) {
-  .history-drawer,
-  .history-toggle {
-    touch-action: auto;           
-  }
-  
-  html, body {
-    overscroll-behavior-x: auto;
-    touch-action: auto;           
-  }
-}
   </style>
 </head>
 <body> 
@@ -749,20 +679,6 @@ body.show-content {
       <i class="fa-brands fa-github"></i> GitHub
     </button>
   </div>
-
-<div id="historyToggle" class="history-toggle">
-  <i class="fa-solid fa-chevron-left"></i>
-</div>
-
-<div id="historyDrawer" class="history-drawer">
-  <h2>
-    <i class="fa-solid fa-history"></i> ACTIVITY LOGS
-  </h2>
-
-  <div id="historyList" class="process-list">
-    <div class="small">No history yet</div>
-  </div>
-</div>
 <aside class="col-right hidden" id="guidePanel">
   <div class="card guide-card">
     <h3 style="display:flex;justify-content:space-between;align-items:center;">
@@ -1230,77 +1146,6 @@ async function stopJob(id) {
 }
 
 fetchJobs();
-</script>
-
-<script>
-const toggle = document.getElementById("historyToggle");
-const drawer = document.getElementById("historyDrawer");
-const icon = toggle.querySelector("i");
-const historyList = document.getElementById("historyList");
-
-let historyData = []; 
-
-toggle.addEventListener("click", () => {
-  const open = drawer.classList.toggle("open");
-  icon.className = open
-    ? "fa-solid fa-chevron-left"
-    : "fa-solid fa-chevron-right";
-
-  if(open) renderHistory();
-});
-
-function renderHistory() {
-  if(!historyData.length){
-    historyList.innerHTML = "<div class='small'>No history yet</div>";
-    return;
-  }
-
-  historyList.innerHTML = "";
-  historyData.forEach(h => {
-    historyList.innerHTML += `
-      <div class="process-item">
-        <b>ID:</b> ${h.id}<br>
-        <b>Status:</b> ${h.status}<br>
-        <small>🕒 ${h.time}</small>
-      </div>
-    `;
-  });
-
-  historyList.scrollTop = historyList.scrollHeight;
-}
-
-async function fetchHistoryLive() {
-  try {
-    const res = await fetch("/history");
-    if(!res.ok) throw new Error(res.statusText);
-
-    const data = await res.json();
-
-    if(data.length > historyData.length){
-      const newLogs = data.slice(historyData.length);
-      newLogs.forEach(h => {
-        historyList.innerHTML += `
-          <div class="process-item">
-            <b>ID:</b> ${h.id}<br>
-            <b>Status:</b> ${h.status}<br>
-            <small>🕒 ${h.time}</small>
-          </div>
-        `;
-      });
-
-      historyList.scrollTop = historyList.scrollHeight;
-
-      historyData = data;
-    }
-  } catch(err) {
-    console.error("Live history fetch failed:", err);
-  } finally {
-    setTimeout(fetchHistoryLive, 2000);
-  }
-}
-
-// Start live fetch
-fetchHistoryLive();
 </script>
 </body>
 </html>
